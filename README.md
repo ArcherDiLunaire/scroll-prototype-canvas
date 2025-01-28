@@ -1,16 +1,18 @@
 # scroll-prototype-canvas
-video animation with scroll drawing frames on canvas
+video animation with scroll using gsap, drawing frame by frame on canvas
 
 ## install
 `npm install`
 
 ## run
-- locally
+- locally with localhost: 
 `npm run dev`
 
-- for testing
+- for testing with IP address:
 `npm run dev -- --host`
 
 ## build
-
+- build project in dist folder: 
 `npm run build`
+
+
