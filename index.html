@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scroll Prototype</title>
+  <script type="module" src="./src/js/main.js"></script>
+</head>
+<body>
+  <div class="fullscreen">
+    <canvas id="video-canvas"></canvas>
+  </div>
+  <section class="scroll-container">
+    <div>
+      <img class="fixed" src="./SOMOSExperiencesLogo.svg" alt="SOMOS Experiences Logo">
+    </div>
+    <div class="animate top">
+      <h1>Scroll Prototype</h1>
+    </div>
+    <div class="animate w-line">
+      <svg class="line" width="10" xmlns="http://www.w3.org/2000/svg">
+        <circle r="3" cx="5" cy="5" stroke="#f5f5dc" fill="none" stroke-width="2" />
+        <line x1="5" y1="7" x2="5" y2="200" stroke="#f5f5dc" stroke-width="2" />
+      </svg>
+      <p>information about this element</p>
+    </div>
+    <div class="animate right">
+      <p>some text coming from the right</p>
+    </div>
+    <div class="animate left">
+      <p>some text coming from the left</p>
+    </div>
+  </section>
+  <section class="fixed">
+    <div> fixed content 1 <button>button</button></div>
+    <div> fixed content 2 <button>button</button></div>
+    <div> fixed content 3 <button>button</button></div>
+  </section>
+</body>
+</html>
