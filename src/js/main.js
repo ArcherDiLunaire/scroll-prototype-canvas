@@ -1,23 +1,25 @@
-import '../scss/main.scss'
+import "../scss/main.scss";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import data from "../data/timeline.json";
 gsap.registerPlugin(ScrollTrigger);
-
+const closeIcon = '<svg width="16px" height="16px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path id="primary" d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path></svg>';
 let device = window.matchMedia("(max-width: 800px) and (orientation: portrait)").matches ? "mobile" : "desktop";
+//overwrite for testing
+device = "desktop";
 console.log("device", device);
 
 // path needs to be hard coded literally for images to be imported by vite.
 let frames;
-if(device == "mobile"){
+if (device == "mobile") {
   frames = import.meta.glob("../assets/mobile/frames/*webp", { eager: true });
 } else {
   frames = import.meta.glob("../assets/desktop/frames/*webp", { eager: true });
 }
 
-let frameCount = 501;
+let frameCount = 953;
 let width = device == "mobile" ? 800 : 1920;
 let height = device == "mobile" ? 1422 : 1080;
-// const urls = new Array(frameCount).fill().map((o, i) => `https://www.apple.com/105/media/us/airpods-pro/2019/1299e2f5_9206_4470_b28e_08307a42f19b/anim/sequence/large/01-hero-lightpass/${(i + 1).toString().padStart(4, '0')}.jpg`);
 const urls = new Array(frameCount).fill().map((o, i) => frames[`../assets/${device}/frames/frames__${(i + 1).toString().padStart(4, '0')}.webp`].default);
 
 function imageSequence(config) {
@@ -31,6 +33,7 @@ function imageSequence(config) {
     updateImage = function () {
       ctx.drawImage(images[Math.round(playhead.frame)], 0, 0);
       onUpdate && onUpdate.call(this);
+      // console.log("frame", playhead.frame);
     };
   images = config.urls.map((url, i) => {
     let img = new Image();
@@ -54,42 +57,65 @@ imageSequence({
     start: "0",   // start at the very top
     // end: "max", // entire page
     scrub: true, // important!
+    // onUpdate: (self) => console.log("progress", self.progress.toFixed(3))
   }
 });
 
-var targets = document.querySelectorAll(".animate");
+console.log(data);
 
-targets.forEach(target => {
-  gsap.timeline({
-    defaults: {duration: 1},
-    scrollTrigger: {
-      trigger: target,
-      // markers: true,
-      scrub: true,
-      pin: true
-    }
-  })
-  .fromTo(target,{ 
-      y: target.classList.contains("top") ? 30 : 0,
-      x: target.classList.contains("left") ? -30 : 
-      target.classList.contains("right") ? 30  : 0,
-    }, {
-      y: target.classList.contains("top") ? -30 : 0,
-      x: target.classList.contains("left") ? 30 :
-      target.classList.contains("right") ? -30 : 0,
-    })
-  .from(target, {opacity: 0, duration: 0.2}, 0)
-  .add( (target.classList.contains("w-line")) ? animateLine(target) : "", "<")
-  .to(target, {opacity: 0, duration: 0.2}, 0.8)
+const timelines = data.timelines;
+const stickers = data.stickers;
+
+let timelineTargets = [];
+let stickerTargets = [];
+
+timelines.forEach((item) => {
+  const container = document.createElement("div");
+  container.classList.add("timeline-item");
+  container.innerHTML = `
+      <p class="timeline-item__title">${item.copy}</p>
+  `;
+  document.querySelector(".pinned").appendChild(container);
+  timelineTargets.push(container);
 });
 
-function animateLine(target) {
-  const line = target.querySelector('.line');
-  gsap.set(line, {scaleY: 0.2});
-  gsap.to(line, {scaleY: 1, duration: 2, ease: "power3.out", scrollTrigger: {
-    trigger: target,
-    toggleActions: "restart pause restart pause",
-    // markers: true,
-    pin: true
-  }});
-}
+stickers.forEach((item) => {
+  const container = document.createElement("span");
+  container.classList.add("sticker-item");
+  container.innerHTML = `
+      <button class="close-button">${closeIcon}</button>
+      <p class="sticker-item__title">${item.copy}</p>
+  `;
+  document.querySelector(".pinned").appendChild(container);
+  stickerTargets.push(container);
+});
+
+const tl = gsap.timeline({
+  scrollTrigger: {
+    trigger: ".scroll-container",
+    scrub: true
+  }
+});
+
+timelineTargets.forEach((target, i) => {
+  tl.from(target, { opacity: 0, duration: 0.2 }, timelines[i].time)
+    .fromTo(target, { scale: 1 }, { scale: 7, ease: "linear", duration: 1 }, timelines[i].time - 0.1)
+    .to(target, { opacity: 0, duration: 0.2 }, timelines[i].time + 0.3)
+});
+
+stickerTargets.forEach((target, i) => {
+  gsap.set(target, { x: stickers[i].x, y: stickers[i].y - 30});
+  tl.from(target, { y:stickers[i].y, opacity: 0, duration: 0.05 }, stickers[i].time)
+  .to(target, { y:stickers[i].y, opacity: 0, duration: 0.05 }, stickers[i].time + 0.3)
+});
+
+const closeButtons = document.querySelectorAll(".close-button");
+closeButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    gsap.to(button.parentElement, {
+      opacity: 0, 
+      duration: 0.1, 
+      onComplete: () => button.parentElement.classList.add("hidden") 
+    });
+  });
+});

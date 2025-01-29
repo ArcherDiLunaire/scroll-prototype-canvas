@@ -1,0 +1,32 @@
+{
+    "timelines":[{
+        "time":0.4,
+        "copy":"Con weber, protegemos tu hogar desde el exterior"
+    },
+    {
+        "time":1,
+        "copy":"Un systema de aislamento térmico que cuida de los tuyos"
+    },
+    {
+        "time":1.4,
+        "copy":"Isover aisla el sueño de unos..."
+    },
+    {
+        "time":1.9,
+        "copy":"...de la euforia de otros"
+    }
+    ],
+    "stickers":[{
+        "x":90,
+        "y":-90,
+        "time":1.1,
+        "copy":"Con los sistemas <b>SATE</b> webertherm <b>reduce un 40% el consumo energético</b> en tu hogar."
+    },
+    {
+        "x":-120,
+        "y":-120,
+        "time":2.2,
+        "copy":"Isover <b>reduce el ruido </b>entre estancias hasta en un <b>50%</b>, proporcionando un ambiente más tranquilo y privado."
+      }
+    ]
+}

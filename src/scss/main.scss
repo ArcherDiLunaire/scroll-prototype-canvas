@@ -2,21 +2,19 @@ body,
 html {
     margin: 0;
     padding: 0;
-    color: #f5f5dc;
+    color: #fff;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     scroll-behavior: smooth;
 }
-
 html{
     background-color: #151515;
 }
-
-body {
-    // height: 10000px;
-} 
-
-html {
-    background-color: rgb(18, 18, 18);
+.logo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 20px;
+    width: 100px;
 }
 
 .fullscreen {
@@ -34,41 +32,84 @@ html {
     }
 }
 
+
 .scroll-container {
-    height: auto;
+    height: 15000px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     margin-bottom: 100vh;
 
-    div {
+    .pinned{
         height: 100vh;
-        min-width: fit-content;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0; 
         display: flex;
         justify-content: center;
-        align-items: center;
-    }   
+        align-items: flex-end;
+
+        .timeline-item{
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            will-change: opacity transform;
+            p{
+                width: fit-content;
+                max-width: 250px;
+                font-weight: bold;
+                font-size: 14px;
+            }
+        }
+
+        .sticker-item{
+            position: absolute;
+            background-color: rgba(255,255,255,0.5);
+            backdrop-filter: blur(6px);
+            border-radius: 16px;
+            padding: 10px 20px;
+            margin: 20px;
+            color: #323232;
+            width: 400px;
+            max-width: calc(100vw - 40px);
+            // transform: translate(90px, -90px);
+            will-change: opacity transform;
+
+            &.hidden{
+                display: none;
+            }
+
+            .close-button{
+                position: absolute;
+                top: 0px;
+                right: -15px;
+                padding: 6px;
+                cursor: pointer;
+                background-color: #FFEB00;
+                border-radius: 50%;
+                border: none;
+                display: flex;
+            }
+            p{
+                font-size: 16px;
+                margin: 0;
+
+            }            
+        }
+    }
+
 }
 
 h1{
     font-size: 2rem;
     margin: 0;
     display: block;
-}
-
-.animate{
-    // border: solid 1px #f5f5dc;
-}
-
-.w-line{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    svg{
-        transform-origin: top;
-    }
 }
 
 .fixed {
