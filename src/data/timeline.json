@@ -1,40 +1,71 @@
 {
-    "timelines":[{
-        "x":20,
-        "y":-20,
-        "time":0.06,
-        "copy":"Con weber, protegemos tu hogar desde el exterior"
-    },
-    {
-        "x":0,
-        "y":0,
-        "time":0.12,
-        "copy":"Un systema de aislamento térmico que cuida de los tuyos"
-    },
-    {
-        "x":0,
-        "y":0,
-        "time":0.18,
-        "copy":"Isover aisla el sueño de unos..."
-    },
-    {
-        "x":0,
-        "y":90,
-        "time":0.24,
-        "copy":"...de la euforia de otros"
-    }
+    "timelines": [
+        {
+            "x": 0,
+            "y": -100,
+            "time": 0.05,
+            "copy": "Con weber, protegemos tu hogar desde el exterior"
+        },
+        {
+            "x": -30,
+            "y": -10,
+            "time": 0.125,
+            "copy": "Un systema de aislamento térmico que cuida de los tuyos"
+        },
+        {
+            "x": -50,
+            "y": 60,
+            "time": 0.18,
+            "copy": "Isover aisla el sueño de unos..."
+        },
+        {
+            "x": 50,
+            "y": 70,
+            "time": 0.24,
+            "copy": "...de la euforia de otros"
+        },
+        {
+            "x": 0,
+            "y": 20,
+            "time": 0.29,
+            "copy": "Placo® sostiene toda la diversión que se necesite, pese lo que pese"
+        }
     ],
-    "stickers":[{
-        "x":90,
-        "y":-90,
-        "time":0.11,
-        "copy":"Con los sistemas <b>SATE</b> webertherm <b>reduce un 40% el consumo energético</b> en tu hogar."
-    },
-    {
-        "x":-120,
-        "y":-120,
-        "time":0.22,
-        "copy":"Isover <b>reduce el ruido </b>entre estancias hasta en un <b>50%</b>, proporcionando un ambiente más tranquilo y privado."
-      }
+    "stickers": [
+        {
+            "color": "#FFEB00",
+            "x": 190,
+            "y": -280,
+            "time": 0.15,
+            "copy": "Con los sistemas <b>SATE</b> webertherm <b>reduce un 40% el consumo energético</b> en tu hogar."
+        },
+        {
+            "color": "#FFEB00",
+            "x": -120,
+            "y": -120,
+            "time": 0.25,
+            "copy": "Isover <b>reduce el ruido</b> entre estancias hasta en un <b>50%</b>, proporcionando un ambiente más tranquilo y privado."
+        },
+        {
+            "color": "#005EB8",
+            "x": -120,
+            "y": -120,
+            "time": 0.30,
+            "copy": "Las <b>soluciones Placo® Habito®</b> ofrecen una <b>alta capacidad de carga</b> (desde 27kg a 90kg por punto de anclaje según sistema y tipo de anclaje) y un gran aislamiento acústico."
+        },
+        {
+            "color": "#005EB8",
+            "x": -120,
+            "y": -120,
+            "time": 0.33,
+            "copy": "Los <b>sistemas de tabiquería futuRE</b> de Isover y Placo® <b>reducen el ruido en un 60%</b> proporcionando el aislamiento acústico adecuado para un descanso reparador."
+        },
+        {
+            "color": "#005EB8",
+            "x": -120,
+            "y": -120,
+            "time": 0.35,
+            "copy": "Las soluciones <b>Placo® Habito®</b> mejoran la <b>resistencia a impactos</b> y están diseñadas para ofrecer <b>acabados perfectos</b> y duraderos"
+        }
     ]
 }

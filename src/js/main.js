@@ -64,72 +64,62 @@ imageSequence({
 
 console.log(data);
 
-const timelines = data.timelines;
-const stickers = data.stickers;
-
-let timelineTargets = [];
-let stickerTargets = [];
-
-gsap.to(".inner-content", {
+gsap.to(".timeline-content", {
   scrollTrigger: {
       trigger: ".scroll-container",
       start: '0',
       end: duration,
       scrub: true, // Smooth movement
-      pin: true
+      pin: true,
   },
   z: duration, // Moves forward on the Z-axis
   ease: "none",
 });
 
-timelines.forEach((item) => {
+const tl = gsap.timeline({
+  scrollTrigger: {
+    trigger: ".scroll-container",
+    scrub: true,
+    start: "0",
+    end: duration,
+  },
+}).set({}, {}, frameCount/frameRate/100);
+
+const delay = 0.02;
+
+data.timelines.forEach((item) => {
   const container = document.createElement("div");
   container.classList.add("timeline-item");
   container.innerHTML = `
       <p class="timeline-item__title">${item.copy}</p>
   `;
-  gsap.set(container, { x: item.x, y: item.y, z: -(item.time*100*frameRate)*duration/frameCount });
-  document.querySelector(".inner-content").appendChild(container);
-  timelineTargets.push(container);
+  item.position = item.time*100*frameRate*duration/frameCount;
+  document.querySelector(".timeline-content").appendChild(container);
+  gsap.set(container, { x: item.x, y: item.y, z: -item.position });
+  tl.from(container, { opacity: 0, duration: 0.02 }, item.time)
+  .to(container, { opacity: 0, duration: 0.02 }, item.time + delay);
 });
 
-// stickers.forEach((item) => {
-//   const container = document.createElement("span");
-//   container.classList.add("sticker-item");
-//   container.innerHTML = `
-//       <button class="close-button">${closeIcon}</button>
-//       <p class="sticker-item__title">${item.copy}</p>
-//   `;
-//   document.querySelector(".pinned").appendChild(container);
-//   stickerTargets.push(container);
-// });
-
-const tl = gsap.timeline({
-  scrollTrigger: {
-    trigger: ".scroll-container",
-    scrub: true
-  }
+data.stickers.forEach((item) => {
+  const container = document.createElement("span");
+  container.classList.add("sticker-item");
+  container.innerHTML = `
+      <button class="close-button" style="background-color:${item.color}" >${closeIcon}</button>
+      <p class="sticker-item__title">${item.copy}</p>
+  `;
+  document.querySelector(".sticker-content").appendChild(container);
+  gsap.set(container, { x: item.x, y: item.y - 30});
+  tl.from(container, { y: item.y, opacity: 0, duration: 0.005 }, item.time)
+    .to(container, { y: item.y, opacity: 0, duration: 0.005 }, item.time + delay)
 });
-
-// timelineTargets.forEach((target, i) => {
-//   tl.from(target, { opacity: 0, duration: 0.2 }, timelines[i].time)
-//     .fromTo(target, { scale: 1 }, { scale: 7, ease: "linear", duration: 1 }, timelines[i].time - 0.1)
-//     .to(target, { opacity: 0, duration: 0.2 }, timelines[i].time + 0.3)
-// });
-
-// stickerTargets.forEach((target, i) => {
-//   gsap.set(target, { x: stickers[i].x, y: stickers[i].y - 30});
-//   tl.from(target, { y:stickers[i].y, opacity: 0, duration: 0.05 }, stickers[i].time)
-//   .to(target, { y:stickers[i].y, opacity: 0, duration: 0.05 }, stickers[i].time + 0.3)
-// });
 
 const closeButtons = document.querySelectorAll(".close-button");
-// closeButtons.forEach((button) => {
-//   button.addEventListener("click", () => {
-//     gsap.to(button.parentElement, {
-//       opacity: 0, 
-//       duration: 0.1, 
-//       onComplete: () => button.parentElement.classList.add("hidden") 
-//     });
-//   });
-// });
+closeButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    gsap.to(button.parentElement, {
+      opacity: 0, 
+      duration: 0.1,
+      onComplete: () => button.parentElement.classList.add("hidden") 
+    });
+  });
+});
