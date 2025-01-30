@@ -1,14 +1,23 @@
+@font-face {
+    font-family: 'Gotham';
+    src: url('/Gotham/Gotham-Bold.ttf') format('ttf');
+    font-weight: Bold;
+    font-style: normal;
+  }
+
 body,
 html {
     margin: 0;
     padding: 0;
     color: #fff;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
     scroll-behavior: smooth;
+    font-family: 'Gotham', sans-serif;
 }
-html{
+
+html {
     background-color: #151515;
 }
+
 .logo {
     position: fixed;
     top: 0;
@@ -34,33 +43,26 @@ html{
 
 
 .scroll-container {
-    height: 15000px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-bottom: 100vh;
+    width: 100vw;
+    height: 100vh;
+    perspective: 500px;
+    perspective-origin: 50% 50%;
 
-    .pinned{
-        height: 100vh;
-        width: 100vw;
-        position: fixed;
-        top: 0;
-        left: 0; 
+    .inner-content {
+        transform-style: preserve-3d;
         display: flex;
+        height: 100vh;
+        align-items: center;
         justify-content: center;
-        align-items: flex-end;
+        transform: translate3d(0,0,0);
+        // will-change: transform;
 
-        .timeline-item{
-            height: 100%;
-            width: 100%;
+        .timeline-item {
             position: absolute;
-            top: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            will-change: opacity transform;
-            p{
+            transform-origin: center;
+            will-change: opacity;
+
+            p {
                 width: fit-content;
                 max-width: 250px;
                 font-weight: bold;
@@ -68,9 +70,9 @@ html{
             }
         }
 
-        .sticker-item{
+        .sticker-item {
             position: absolute;
-            background-color: rgba(255,255,255,0.5);
+            background-color: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(6px);
             border-radius: 16px;
             padding: 10px 20px;
@@ -78,14 +80,13 @@ html{
             color: #323232;
             width: 400px;
             max-width: calc(100vw - 40px);
-            // transform: translate(90px, -90px);
             will-change: opacity transform;
 
-            &.hidden{
+            &.hidden {
                 display: none;
             }
 
-            .close-button{
+            .close-button {
                 position: absolute;
                 top: 0px;
                 right: -15px;
@@ -96,17 +97,18 @@ html{
                 border: none;
                 display: flex;
             }
-            p{
+
+            p {
                 font-size: 16px;
                 margin: 0;
 
-            }            
+            }
         }
     }
 
 }
 
-h1{
+h1 {
     font-size: 2rem;
     margin: 0;
     display: block;
@@ -115,17 +117,32 @@ h1{
 .fixed {
     height: auto;
 
-    >* {
+    .card {
         position: relative;
-        height: 50vh;
+        height: auto;
         width: calc(100vw - 40px);
-        background-color: #151515;
-        // margin: 20px;
+        background-color: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(6px);
+        border-radius: 16px;
+        padding: 10px;
+        margin: 20px auto;
+        color: #323232;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        max-width: 50vh;
-        margin: 20px auto;
+        max-width: 325px;
+        font-size: 16px;
+
+        button {
+            background-color: #B0B0B0;
+            border: none;
+            width: 100%;
+            border-radius: 6px;
+            padding: 10px 20px;
+            margin: 5px 0px;
+            cursor: pointer;
+            font-size: 16px;
+        }
     }
 }
