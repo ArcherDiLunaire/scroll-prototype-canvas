@@ -1,9 +1,14 @@
 @font-face {
     font-family: 'Gotham';
     src: url('/Gotham/Gotham-Black.ttf') format('ttf');
-    font-weight: Bold;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Gotham-Ultra';
+    src: url('/Gotham/Gotham-Ultra.ttf') format('ttf');
+    font-style: normal;
+}
+
 
 body,
 html {
@@ -14,8 +19,58 @@ html {
     font-family: 'Gotham', sans-serif;
 }
 
+body {
+    overflow: hidden;
+}
+
 html {
     background-color: #151515;
+}
+
+.loading-overlay{
+    position: fixed;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 100;
+    background-color: #17428C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: opacity;
+    overflow: hidden;
+
+    .logo{
+        position: relative;
+        width: 150px;
+    }
+
+    .loading-container {
+        width: 100vw;
+        height: 10px;
+        background-color: rgba(255,255,255,0.35);
+        position: absolute;
+        left: 0;
+        bottom: 0;
+    }
+
+    .loading-value{
+        position: absolute;
+        bottom: 15px;
+        font-size: 98px;
+        font-weight: 600;
+        font-family: 'Gotham-Ultra', sans-serif;
+        width: 250px;
+        left: -250px;
+        text-align: right;
+    }
+
+    .loading-bar {
+        width: 0%;
+        height: 100%;
+        background: #fff;
+        border-radius: 0px 16px 16px 0px; 
+        will-change: width;
+    }
 }
 
 .logo {
@@ -44,14 +99,14 @@ html {
 
 .scroll-container {
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
     perspective: 500px;
     perspective-origin: 50% 50%;
 
     .timeline-content {
         transform-style: preserve-3d;
         display: flex;
-        height: 100vh;
+        height: 100%;
         align-items: center;
         justify-content: center;
         transform: translate3d(0, 0, 0);

@@ -3,6 +3,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import data from "../data/timeline.json";
 gsap.registerPlugin(ScrollTrigger);
+
+
 const closeIcon = '<svg width="16px" height="16px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path id="primary" d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path></svg>';
 let device = window.matchMedia("(max-width: 800px) and (orientation: portrait)").matches ? "mobile" : "desktop";
 //overwrite for testing
@@ -17,12 +19,66 @@ if (device == "mobile") {
   frames = import.meta.glob("../assets/desktop/frames/*webp", { eager: true });
 }
 
-let duration = 5000;
-let frameCount = 953;
+let loadedImages = 0;
+let duration = 8000;
+let frameCount = 1500;
 let frameRate = 25;
 let width = device == "mobile" ? 800 : 1920;
 let height = device == "mobile" ? 1422 : 1080;
 const urls = new Array(frameCount).fill().map((o, i) => frames[`../assets/${device}/frames/frames__${(i + 1).toString().padStart(4, '0')}.webp`].default);
+
+const loader = document.querySelector(".loading-overlay");
+const lvalue = loader.querySelector(".loading-value");
+const lbar = loader.querySelector(".loading-bar");
+
+const updateProgress = () => {
+  let loading = (loadedImages / frameCount) * 100;
+
+  lvalue.querySelector("span").textContent = Math.ceil(loading) + "%";
+
+  gsap.to(lbar, {
+    width: `${loading}%`,
+    duration: 0.3,
+    ease: "power2.out",
+  });
+
+  gsap.to(lvalue, {
+    x: `${loading}vw`,
+    duration: 0.3,
+    ease: "power2.out",
+  });
+
+  if (loading === 100) {
+    document.body.style.overflow="auto";
+    gsap.to(".loading-overlay", { autoAlpha:0, duration: 1, delay: 0.5 });
+    console.log("All images preloaded!");
+  }
+};
+
+const preloadImages = () => {
+  return Promise.all(
+    urls.map((path) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = path;
+        img.onload = () => {
+          loadedImages++;
+          updateProgress();
+          resolve();
+        };
+        img.onerror = () => {
+          console.error(`Failed to load: ${path}`);
+          loadedImages++;
+          updateProgress();
+          resolve();
+        };
+      });
+    })
+  );
+};
+
+// Start preloading
+preloadImages();
 
 function imageSequence(config) {
   let c = gsap.utils.toArray(config.canvas)[0];
@@ -66,11 +122,11 @@ console.log(data);
 
 gsap.to(".timeline-content", {
   scrollTrigger: {
-      trigger: ".scroll-container",
-      start: '0',
-      end: duration,
-      scrub: true, // Smooth movement
-      pin: true,
+    trigger: ".scroll-container",
+    start: '0',
+    end: duration,
+    scrub: true, // Smooth movement
+    pin: true,
   },
   z: duration, // Moves forward on the Z-axis
   ease: "none",
@@ -83,7 +139,7 @@ const tl = gsap.timeline({
     start: "0",
     end: duration,
   },
-}).set({}, {}, frameCount/frameRate/100);
+}).set({}, {}, frameCount / frameRate / 100);
 
 const delay = 0.02;
 
@@ -93,11 +149,11 @@ data.timelines.forEach((item) => {
   container.innerHTML = `
       <p class="timeline-item__title">${item.copy}</p>
   `;
-  item.position = item.time*100*frameRate*duration/frameCount;
+  item.position = item.time * 100 * frameRate * duration / frameCount;
   document.querySelector(".timeline-content").appendChild(container);
   gsap.set(container, { x: item.x, y: item.y, z: -item.position });
   tl.from(container, { opacity: 0, duration: 0.02 }, item.time)
-  .to(container, { opacity: 0, duration: 0.02 }, item.time + delay);
+    .to(container, { opacity: 0, duration: 0.02 }, item.time + delay);
 });
 
 data.stickers.forEach((item) => {
@@ -108,18 +164,18 @@ data.stickers.forEach((item) => {
       <p class="sticker-item__title">${item.copy}</p>
   `;
   document.querySelector(".sticker-content").appendChild(container);
-  gsap.set(container, { x: item.x, y: item.y - 30});
-  tl.from(container, { y: item.y, opacity: 0, duration: 0.005 }, item.time)
-    .to(container, { y: item.y, opacity: 0, duration: 0.005 }, item.time + delay)
+  gsap.set(container, { x: item.x, y: item.y - 30 });
+  tl.from(container, { y: item.y, opacity: 0, duration: 0.01 }, item.time)
+    .to(container, { y: item.y, opacity: 0, duration: 0.01 }, item.time + delay)
 });
 
 const closeButtons = document.querySelectorAll(".close-button");
 closeButtons.forEach((button) => {
   button.addEventListener("click", () => {
     gsap.to(button.parentElement, {
-      opacity: 0, 
+      opacity: 0,
       duration: 0.1,
-      onComplete: () => button.parentElement.classList.add("hidden") 
+      onComplete: () => button.parentElement.classList.add("hidden")
     });
   });
 });

@@ -3,12 +3,21 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <title>Scroll Prototype</title>
   <script type="module" src="./src/js/main.js"></script>
 </head>
 
 <body>
+  <section class="loading-overlay">
+    <img class="logo" src="./SaintGobainGroup.png" alt="saint Gobain logo">
+    <div class="loading-container">
+      <div class="loading-value">
+        <span>0%</span>
+      </div>
+      <div class="loading-bar"></div>
+    </div>
+  </section>
   <img class="logo" src="./SaintGobainGroup.png" alt="saint Gobain logo">
   <div class="fullscreen">
     <canvas id="video-canvas"></canvas>
