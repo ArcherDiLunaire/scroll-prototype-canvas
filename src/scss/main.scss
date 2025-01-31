@@ -3,11 +3,13 @@
     src: url('/Gotham/Gotham-Black.ttf') format('ttf');
     font-style: normal;
 }
+
 @font-face {
     font-family: 'Gotham-Ultra';
     src: url('/Gotham/Gotham-Ultra.ttf') format('ttf');
     font-style: normal;
 }
+
 @font-face {
     font-family: 'Gotham-Book';
     src: url('/Gotham/Gotham-Book.ttf') format('ttf');
@@ -32,7 +34,7 @@ html {
     background-color: #151515;
 }
 
-.loading-overlay{
+.loading-overlay {
     position: fixed;
     width: 100vw;
     height: 100dvh;
@@ -44,7 +46,7 @@ html {
     will-change: opacity;
     overflow: hidden;
 
-    p{
+    p {
         margin: 20px;
         top: 0;
         right: 0;
@@ -54,7 +56,7 @@ html {
         font-family: 'Gotham-Ultra', sans-serif;
     }
 
-    .logo{
+    .logo {
         position: relative;
         width: 250px;
     }
@@ -62,33 +64,33 @@ html {
     .loading-container {
         width: 100vw;
         height: 10px;
-        background-color: rgba(255,255,255,0.35);
+        background-color: rgba(255, 255, 255, 0.35);
         position: absolute;
         left: 0;
         bottom: 0;
-    }
 
-    .loading-value{
-        position: absolute;
-        bottom: 15px;
-        font-size: 98px;
-        font-weight: 600;
-        font-family: 'Gotham-Ultra', sans-serif;
-        width: 250px;
-        left: -250px;
-        text-align: right;
-    }
+        .loading-value {
+            position: absolute;
+            bottom: 15px;
+            font-size: 98px;
+            font-weight: 600;
+            font-family: 'Gotham-Ultra', sans-serif;
+            width: 250px;
+            left: -250px;
+            text-align: right;
+        }
 
-    .loading-bar {
-        width: 0%;
-        height: 100%;
-        background: #fff;
-        border-radius: 0px 16px 16px 0px; 
-        will-change: width;
+        .loading-bar {
+            width: 0%;
+            height: 100%;
+            background: #fff;
+            border-radius: 0px 16px 16px 0px;
+            will-change: width;
+        }
     }
 }
 
-.intro-overlay{
+.intro-overlay {
     position: absolute;
     height: 100dvh;
     width: 100dvw;
@@ -98,7 +100,7 @@ html {
     will-change: opacity;
     z-index: 1;
 
-    .logo-wrapper{
+    .logo-wrapper {
         background-color: rgba(255, 255, 255, 0.5);
         width: 100vw;
         display: flex;
@@ -106,14 +108,15 @@ html {
         margin: 20px;
         border-radius: 16px;
         padding: 20px;
-        .logo{
+
+        .logo {
             position: relative;
             width: 250px;
         }
     }
-    
 
-    h1{
+
+    h1 {
         margin: 20px;
         width: 600px;
         max-width: 100vw;
@@ -124,7 +127,7 @@ html {
         font-family: 'Gotham', sans-serif;
     }
 
-    .info{
+    .info {
         position: absolute;
         bottom: 0;
         margin: 20px;
@@ -132,7 +135,7 @@ html {
         flex-direction: column;
         align-items: center;
 
-        span{
+        span {
             width: 300px;
             max-width: 100vw;
             font-size: 16px;
@@ -141,7 +144,7 @@ html {
             font-family: 'Gotham-Book', sans-serif;
         }
 
-        img{
+        img {
             width: 40px;
             transform: scaleX(1.3);
         }
@@ -154,6 +157,23 @@ html {
     left: 0;
     margin: 20px;
     width: 100px;
+}
+
+.progress-container {
+    width: 100vw;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.35);
+    position: fixed;
+    left: 0;
+    top: 0;
+
+    .progress-bar {
+        width: 0%;
+        height: 100%;
+        background: #FFEB00;
+        border-radius: 0px 16px 16px 0px;
+        will-change: width;
+    }
 }
 
 .fullscreen {
@@ -203,6 +223,10 @@ html {
     }
 
     .sticker-content {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
         .sticker-item {
             position: absolute;
             background-color: rgba(255, 255, 255, 0.5);

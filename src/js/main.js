@@ -89,7 +89,6 @@ const preloadImages = () => {
   );
 };
 
-// Start preloading
 preloadImages();
 
 function imageSequence(config) {
@@ -130,8 +129,16 @@ imageSequence({
   }
 });
 
-console.log(data);
-
+gsap.to(".progress-bar", {
+  scrollTrigger: {
+    trigger: ".scroll-container",
+    start: "0",
+    end: duration,
+    scrub: true
+  },
+  width: "100%",
+  ease: "none"
+});
 
 //controlling the continuous camera position on the z-axis
 gsap.to(".timeline-content", {
@@ -183,15 +190,15 @@ data.stickers.forEach((item) => {
   `;
   document.querySelector(".sticker-content").appendChild(container);
   gsap.set(container, { x: item.x, y: item.y - 30 });
-  tl.from(container, { y: item.y, opacity: 0, duration: 0.01 }, item.time)
-    .to(container, { y: item.y, opacity: 0, duration: 0.01 }, item.time + delay)
+  tl.from(container, { y: item.y, autoAlpha: 0, duration: 0.01 }, item.time)
+    .to(container, { y: item.y, autoAlpha: 0, duration: 0.01 }, item.time + delay)
 });
 
 const closeButtons = document.querySelectorAll(".close-button");
 closeButtons.forEach((button) => {
   button.addEventListener("click", () => {
     gsap.to(button.parentElement, {
-      opacity: 0,
+      autoAlpha: 0,
       duration: 0.1,
       onComplete: () => button.parentElement.classList.add("hidden")
     });
