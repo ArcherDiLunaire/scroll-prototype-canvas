@@ -1,9 +1,9 @@
 {
     "timelines": [
         {
-            "x": 0,
-            "y": -120,
-            "time": 0.05,
+            "x": -40,
+            "y": -100,
+            "time": 0.045,
             "copy": "Con weber, protegemos tu hogar desde el exterior"
         },
         {
@@ -36,7 +36,7 @@
             "color": "#FFEB00",
             "x": 190,
             "y": -280,
-            "time": 0.15,
+            "time": 0.14,
             "copy": "Con los sistemas <b>SATE</b> webertherm <b>reduce un 40% el consumo energético</b> en tu hogar."
         },
         {

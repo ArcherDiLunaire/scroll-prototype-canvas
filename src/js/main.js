@@ -30,6 +30,7 @@ const urls = new Array(frameCount).fill().map((o, i) => frames[`../assets/${devi
 const loader = document.querySelector(".loading-overlay");
 const lvalue = loader.querySelector(".loading-value");
 const lbar = loader.querySelector(".loading-bar");
+const ltext = loader.querySelector(".loading-text");
 
 const updateProgress = () => {
   let loading = (loadedImages / frameCount) * 100;
@@ -50,8 +51,19 @@ const updateProgress = () => {
 
   if (loading === 100) {
     document.body.style.overflow="auto";
-    gsap.to(".loading-overlay", { autoAlpha:0, duration: 1, delay: 0.5 });
-    console.log("All images preloaded!");
+    gsap.to([ltext,".loading-container"], {
+      autoAlpha:0, 
+      duration: 0.3, 
+      delay: 0.5, 
+      onComplete: () => gsap.to(".loading-overlay", {
+        y:"-100vh",
+        duration: 0.8,
+        ease: "power2.in",
+        onComplete: () => gsap.to(".loading-overlay", {
+          autoAlpha:0, 
+        })
+      })
+    });
   }
 };
 
@@ -120,18 +132,22 @@ imageSequence({
 
 console.log(data);
 
+
+//controlling the continuous camera position on the z-axis
 gsap.to(".timeline-content", {
   scrollTrigger: {
     trigger: ".scroll-container",
     start: '0',
     end: duration,
-    scrub: true, // Smooth movement
+    scrub: true,
     pin: true,
   },
   z: duration, // Moves forward on the Z-axis
   ease: "none",
 });
 
+
+//controlling the actual text animations
 const tl = gsap.timeline({
   scrollTrigger: {
     trigger: ".scroll-container",
@@ -142,6 +158,8 @@ const tl = gsap.timeline({
 }).set({}, {}, frameCount / frameRate / 100);
 
 const delay = 0.02;
+
+tl.to(".intro-overlay", {autoAlpha:0, duration:0.02}, 0);
 
 data.timelines.forEach((item) => {
   const container = document.createElement("div");

@@ -8,6 +8,11 @@
     src: url('/Gotham/Gotham-Ultra.ttf') format('ttf');
     font-style: normal;
 }
+@font-face {
+    font-family: 'Gotham-Book';
+    src: url('/Gotham/Gotham-Book.ttf') format('ttf');
+    font-style: normal;
+}
 
 
 body,
@@ -39,9 +44,19 @@ html {
     will-change: opacity;
     overflow: hidden;
 
+    p{
+        margin: 20px;
+        top: 0;
+        right: 0;
+        position: absolute;
+        font-size: 30px;
+        font-weight: 600;
+        font-family: 'Gotham-Ultra', sans-serif;
+    }
+
     .logo{
         position: relative;
-        width: 150px;
+        width: 250px;
     }
 
     .loading-container {
@@ -70,6 +85,66 @@ html {
         background: #fff;
         border-radius: 0px 16px 16px 0px; 
         will-change: width;
+    }
+}
+
+.intro-overlay{
+    position: absolute;
+    height: 100dvh;
+    width: 100dvw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: opacity;
+    z-index: 1;
+
+    .logo-wrapper{
+        background-color: rgba(255, 255, 255, 0.5);
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        margin: 20px;
+        border-radius: 16px;
+        padding: 20px;
+        .logo{
+            position: relative;
+            width: 250px;
+        }
+    }
+    
+
+    h1{
+        margin: 20px;
+        width: 600px;
+        max-width: 100vw;
+        text-align: center;
+        position: absolute;
+        transform: translateY(130px);
+        font-size: 25px;
+        font-family: 'Gotham', sans-serif;
+    }
+
+    .info{
+        position: absolute;
+        bottom: 0;
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        span{
+            width: 300px;
+            max-width: 100vw;
+            font-size: 16px;
+            margin: 16px;
+            text-align: center;
+            font-family: 'Gotham-Book', sans-serif;
+        }
+
+        img{
+            width: 40px;
+            transform: scaleX(1.3);
+        }
     }
 }
 
@@ -119,9 +194,10 @@ html {
 
             p {
                 width: fit-content;
-                max-width: 250px;
+                width: 300px;
+                max-width: calc(100vw - 40px);
                 font-weight: bold;
-                font-size: 14px;
+                font-size: 16px;
             }
         }
     }
