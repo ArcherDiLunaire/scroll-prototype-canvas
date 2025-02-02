@@ -291,10 +291,6 @@ h1 {
 
 .fixed {
     height: auto;
-    //temporary
-    position: fixed;
-    top: 0;
-    z-index: 10000;
 
     .card {
         position: relative;
@@ -316,6 +312,7 @@ h1 {
         details {
             display: flex;
             gap: 24px;
+            cursor: pointer;
 
             .hidden-text{
                 display: none;
@@ -342,9 +339,17 @@ h1 {
                 font-family: 'Gotham-Book', sans-serif;
             }
 
+            .toggle-text::after{
+                content:"más +"
+            }
+
             &[open]{
                 .hidden-text{
                     display: block;
+                }
+
+                .toggle-text::after{
+                    content:"menos -"
                 }
             }
 
