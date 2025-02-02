@@ -16,7 +16,6 @@
     font-style: normal;
 }
 
-
 body,
 html {
     margin: 0;
@@ -219,18 +218,33 @@ html {
         transform: translate3d(0, 0, 0);
         // will-change: transform;
 
+        @media only screen and (max-width: 1024px) {
+            transform: translate(0, 0) !important;
+        }
+
         .timeline-item {
             position: absolute;
             transform-origin: center;
             will-change: opacity;
 
+            @media only screen and (max-width: 1024px) {
+                transform: translate(0, 0) !important;
+                top: 15%;
+            }
+
             p {
-                width: fit-content;
                 width: 300px;
                 max-width: calc(100vw - 40px);
                 font-weight: bold;
                 font-size: 16px;
                 font-family: "Gotham-Bold", sans-serif;
+                line-height: 1.2em;
+
+                @media only screen and (max-width: 1024px) {
+                    width: 400px;
+                    font-size: 24px;
+                    text-align: center;
+                }
             }
         }
     }
@@ -245,6 +259,7 @@ html {
         top: 0;
         left: 0;
 
+        
         .sticker-item {
             position: absolute;
             background-color: rgba(255, 255, 255, 0.5);
@@ -254,8 +269,13 @@ html {
             margin: 20px;
             color: #323232;
             width: 400px;
-            max-width: calc(100vw - 40px);
+            max-width: calc(100vw - 80px);
             will-change: opacity, transform;
+
+            @media only screen and (max-width: 1024px) {
+                align-self: flex-end;
+                transform: translate(0,0) !important;
+            }
 
             &.hidden {
                 display: none;
@@ -295,11 +315,11 @@ h1 {
     .card {
         position: relative;
         height: auto;
-        width: calc(100vw - 40px);
+        width: calc(100vw - 80px);
         background-color: rgba(255, 255, 255, 0.7);
         backdrop-filter: blur(6px);
         border-radius: 16px;
-        padding: 16px;
+        padding: 20px;
         margin: 20px auto;
         color: #323232;
         display: flex;
