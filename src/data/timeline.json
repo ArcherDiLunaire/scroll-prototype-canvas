@@ -21,7 +21,7 @@
         {
             "x": 100,
             "y": 80,
-            "time": 0.22,
+            "time": 0.225,
             "copy": "...de la euforia de otros"
         },
         {
@@ -35,28 +35,28 @@
         {
             "color": "#FFEB00",
             "x": 240,
-            "y": -300,
+            "y": 150,
             "time": 0.14,
             "copy": "Con los sistemas <b>SATE</b> webertherm <b>reduce un 40% el consumo energético</b> en tu hogar."
         },
         {
             "color": "#FFEB00",
             "x": -270,
-            "y": -380,
-            "time": 0.24,
+            "y": 110,
+            "time": 0.245,
             "copy": "Isover <b>reduce el ruido</b> entre estancias hasta en un <b>50%</b>, proporcionando un ambiente más tranquilo y privado."
         },
         {
             "color": "#005EB8",
-            "x": 240,
-            "y": -630,
+            "x": 260,
+            "y": -180,
             "time": 0.29,
             "copy": "Las <b>soluciones Placo® Habito®</b> ofrecen una <b>alta capacidad de carga</b> (desde 27kg a 90kg por punto de anclaje según sistema y tipo de anclaje) y un gran aislamiento acústico."
         },
         {
             "color": "#005EB8",
             "x": -400,
-            "y": -450,
+            "y": 30,
             "time": 0.32,
             "copy": "Los <b>sistemas de tabiquería futuRE</b> de Isover y Placo® <b>reducen el ruido en un 60%</b> proporcionando el aislamiento acústico adecuado para un descanso reparador."
         }

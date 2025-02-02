@@ -1,18 +1,18 @@
 @font-face {
-    font-family: 'Gotham';
-    src: url('/Gotham/Gotham-Black.ttf') format('ttf');
+    font-family: 'Gotham-Black';
+    src: url('/Gotham/Gotham-Black.woff') format('woff');
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Gotham-Ultra';
-    src: url('/Gotham/Gotham-Ultra.ttf') format('ttf');
+    font-family: 'Gotham-Bold';
+    src: url('/Gotham/Gotham-Bold.woff') format('woff');
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Gotham-Book';
-    src: url('/Gotham/Gotham-Book.ttf') format('ttf');
+    src: url('/Gotham/Gotham-Book.woff') format('woff');
     font-style: normal;
 }
 
@@ -23,7 +23,13 @@ html {
     padding: 0;
     color: #fff;
     scroll-behavior: smooth;
-    font-family: 'Gotham', sans-serif;
+    font-family: 'Gotham-Book', sans-serif;
+    line-height: 1.2em;
+}
+
+b{
+    font-family: 'Gotham-Bold', sans-serif;
+    font-weight: 500;
 }
 
 body {
@@ -53,7 +59,7 @@ html {
         position: absolute;
         font-size: 30px;
         font-weight: 600;
-        font-family: 'Gotham-Ultra', sans-serif;
+        font-family: 'Gotham-Black', sans-serif;
     }
 
     .logo {
@@ -71,13 +77,17 @@ html {
 
         .loading-value {
             position: absolute;
-            bottom: 15px;
+            bottom: 0px;
             font-size: 98px;
             font-weight: 600;
-            font-family: 'Gotham-Ultra', sans-serif;
-            width: 250px;
-            left: -250px;
+            font-family: 'Gotham-Black', sans-serif;
+            width: 270px;
+            left: -270px;
             text-align: right;
+            
+            span{
+                line-height: 1.2em;
+            }
         }
 
         .loading-bar {
@@ -99,9 +109,10 @@ html {
     justify-content: center;
     will-change: opacity;
     z-index: 1;
-
+    
     .logo-wrapper {
         background-color: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(6px);
         width: 100vw;
         display: flex;
         justify-content: center;
@@ -124,11 +135,12 @@ html {
         position: absolute;
         transform: translateY(130px);
         font-size: 25px;
-        font-family: 'Gotham', sans-serif;
+        line-height: 1.2em;
+        font-family: 'Gotham-Bold', sans-serif;
     }
 
     .info {
-        position: absolute;
+        position: fixed;
         bottom: 0;
         margin: 20px;
         display: flex;
@@ -218,6 +230,7 @@ html {
                 max-width: calc(100vw - 40px);
                 font-weight: bold;
                 font-size: 16px;
+                font-family: "Gotham-Bold", sans-serif;
             }
         }
     }
@@ -225,7 +238,12 @@ html {
     .sticker-content {
         display: flex;
         justify-content: center;
-        align-items: flex-end;
+        align-items: center;
+        height: 100dvh;
+        width: 100dvw;
+        position: fixed;
+        top: 0;
+        left: 0;
 
         .sticker-item {
             position: absolute;
@@ -237,7 +255,7 @@ html {
             color: #323232;
             width: 400px;
             max-width: calc(100vw - 40px);
-            will-change: opacity transform;
+            will-change: opacity, transform;
 
             &.hidden {
                 display: none;
@@ -273,15 +291,19 @@ h1 {
 
 .fixed {
     height: auto;
+    //temporary
+    position: fixed;
+    top: 0;
+    z-index: 10000;
 
     .card {
         position: relative;
         height: auto;
         width: calc(100vw - 40px);
-        background-color: rgba(255, 255, 255, 0.5);
+        background-color: rgba(255, 255, 255, 0.7);
         backdrop-filter: blur(6px);
         border-radius: 16px;
-        padding: 10px;
+        padding: 16px;
         margin: 20px auto;
         color: #323232;
         display: flex;
@@ -291,7 +313,67 @@ h1 {
         max-width: 325px;
         font-size: 16px;
 
-        button {
+        details {
+            display: flex;
+            gap: 24px;
+
+            .hidden-text{
+                display: none;
+
+                ul{
+                    margin: 0;
+                    padding: 0;
+                    padding-left: 10px;
+                }
+
+                em {
+                    display: block;
+                    margin: 10px 0px 0px 10px;
+                    margin-bottom: 0;
+                }
+
+                sup{
+                    color: var(--color);
+                }
+            }
+
+            .toggle-text{
+                color: #005EB8;
+                font-family: 'Gotham-Book', sans-serif;
+            }
+
+            &[open]{
+                .hidden-text{
+                    display: block;
+                }
+            }
+
+            summary {
+                list-style: none;
+                /* Remove default marker */
+                display: flex;
+                gap: 20px;
+                flex-direction: column;
+                margin-bottom: 24px;
+            }
+
+            summary::-webkit-details-marker {
+                display: none;
+                /* Hide marker in WebKit browsers (Chrome, Safari, Edge) */
+            }
+
+            .card-logo {
+                height: 50px;
+                width: fit-content;
+            }
+
+            p {
+                margin: 0;
+            }
+        }
+
+
+        button, a {
             background-color: #B0B0B0;
             border: none;
             width: 100%;
@@ -300,6 +382,22 @@ h1 {
             margin: 5px 0px;
             cursor: pointer;
             font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            color: black;
+            box-sizing: border-box;
+            font-family: "Gotham-Book", sans-serif;
+
+            img{
+                height: 24px;
+            }
+
+            &.color-btn {
+                background-color: var(--color);
+            }
         }
     }
 }
