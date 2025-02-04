@@ -30,7 +30,6 @@ const urls = new Array(frameCount).fill().map((o, i) => frames[`../assets/${devi
 const loader = document.querySelector(".loading-overlay");
 const lvalue = loader.querySelector(".loading-value");
 const lbar = loader.querySelector(".loading-bar");
-const ltext = loader.querySelector(".loading-text");
 
 const updateProgress = () => {
   let loading = (loadedImages / frameCount) * 100;
@@ -43,15 +42,9 @@ const updateProgress = () => {
     ease: "power2.out",
   });
 
-  gsap.to(lvalue, {
-    x: `${loading}vw`,
-    duration: 0.3,
-    ease: "power2.out",
-  });
-
   if (loading === 100) {
     document.body.style.overflow="auto";
-    gsap.to([ltext,".loading-container"], {
+    gsap.to(".loading-container", {
       autoAlpha:0, 
       duration: 0.3, 
       delay: 0.5, 
