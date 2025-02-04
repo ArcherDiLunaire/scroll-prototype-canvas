@@ -6,33 +6,34 @@ gsap.registerPlugin(ScrollTrigger);
 
 
 const closeIcon = '<svg width="16px" height="16px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path id="primary" d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path></svg>';
-let device = window.matchMedia("(max-width: 800px) and (orientation: portrait)").matches ? "mobile" : "desktop";
-//overwrite for testing
-device = "desktop";
+let device = window.matchMedia("(max-width: 1024px) and (orientation: portrait)").matches ? "mobile" : "desktop";
+
 console.log("device", device);
 
 // path needs to be hard coded literally for images to be imported by vite.
 let frames;
 if (device == "mobile") {
-  frames = import.meta.glob("../assets/mobile/frames/*webp", { eager: true });
+  frames = import.meta.glob("../assets/frames/mobile/*webp", { eager: true });
 } else {
-  frames = import.meta.glob("../assets/desktop/frames/*webp", { eager: true });
+  frames = import.meta.glob("../assets/frames/desktop/*webp", { eager: true });
 }
+
+const reducer = device == "mobile" ? 1.5 : 1; //1, 1.5, 2 ?
 
 let loadedImages = 0;
 let duration = 8000;
-let frameCount = 1500;
-let frameRate = 25;
-let width = device == "mobile" ? 800 : 1920;
-let height = device == "mobile" ? 1422 : 1080;
-const urls = new Array(frameCount).fill().map((o, i) => frames[`../assets/${device}/frames/frames__${(i + 1).toString().padStart(4, '0')}.webp`].default);
+let frameCount = 1500 / reducer;
+let frameRate = 25 / reducer;
+let width = device == "mobile" ? 1080 : 1920;
+let height = device == "mobile" ? 1920 : 1080;
+const urls = new Array(frameCount).fill().map((o, i) => frames[`../assets/frames/${device}/frames__${Math.ceil(i*reducer+1).toString().padStart(4, '0')}.webp`].default);
 
 const loader = document.querySelector(".loading-overlay");
 const lvalue = loader.querySelector(".loading-value");
 const lbar = loader.querySelector(".loading-bar");
 
 const updateProgress = () => {
-  let loading = (loadedImages / frameCount) * 100;
+  let loading = (loadedImages / (frameCount) ) * 100;
 
   lvalue.querySelector("span").textContent = Math.ceil(loading) + "%";
 
@@ -43,6 +44,7 @@ const updateProgress = () => {
   });
 
   if (loading === 100) {
+    console.log(urls.length);
     document.body.style.overflow="auto";
     gsap.to(".loading-container", {
       autoAlpha:0, 
