@@ -18,47 +18,49 @@ if (device == "mobile") {
   frames = import.meta.glob("../assets/frames/desktop/*webp", { eager: true });
 }
 
-const reducer = device == "mobile" ? 1.5 : 1; //1, 1.5, 2 ?
+const reducer = device == "mobile" ? 1.5 : 1.5; //1, 1.5, 2 ? //reduces the amount of images loaded (ie the framerate)
 
 let loadedImages = 0;
 let duration = 8000;
-let frameCount = 1500 / reducer;
-let frameRate = 25 / reducer;
-let width = device == "mobile" ? 1080 : 1920;
-let height = device == "mobile" ? 1920 : 1080;
-const urls = new Array(frameCount).fill().map((o, i) => frames[`../assets/frames/${device}/frames__${Math.ceil(i*reducer+1).toString().padStart(4, '0')}.webp`].default);
+let frameCount = Math.floor(1376 / reducer);
+let frameRate = Math.floor(25 / reducer);
+let width = device == "mobile" ? 1080 : 2400;
+let height = device == "mobile" ? 1920 : 1350;
+const urls = new Array(frameCount).fill().map((o, i) => frames[`../assets/frames/${device}/frames__${Math.ceil(i * reducer + 1).toString().padStart(4, '0')}.webp`].default);
 
 const loader = document.querySelector(".loading-overlay");
 const lvalue = loader.querySelector(".loading-value");
 const lbar = loader.querySelector(".loading-bar");
 
+const hScrollWrapper = document.querySelector(".h-scroll-wrapper")
+const hScrollWrapperWidth = hScrollWrapper.getBoundingClientRect().width;
+
 const updateProgress = () => {
-  let loading = (loadedImages / (frameCount) ) * 100;
+  let loading = Math.ceil(((loadedImages) / (frameCount / 2)) * 100);
 
-  lvalue.querySelector("span").textContent = Math.ceil(loading) + "%";
+  if (loading <= 100) {
+    lvalue.querySelector("span").textContent = loading + "%";
 
-  gsap.to(lbar, {
-    width: `${loading}%`,
-    duration: 0.3,
-    ease: "power2.out",
-  });
+    gsap.to(lbar, {
+      width: `${loading}%`,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  }
 
   if (loading === 100) {
-    console.log(urls.length);
-    document.body.style.overflow="auto";
-    gsap.to(".loading-container", {
-      autoAlpha:0, 
-      duration: 0.3, 
-      delay: 0.5, 
-      onComplete: () => gsap.to(".loading-overlay", {
-        y:"-100vh",
-        duration: 0.8,
-        ease: "power2.in",
-        onComplete: () => gsap.to(".loading-overlay", {
-          autoAlpha:0, 
-        })
-      })
-    });
+    document.body.style.overflow = "auto";
+    gsap.timeline().to(".loading-container", {
+      autoAlpha: 0,
+      duration: 0.3,
+      delay: 0.5,
+    }).to(".loading-overlay", {
+      yPercent: -100,
+      duration: 0.8,
+      ease: "power2.in",
+    }).to(".loading-overlay", {
+      autoAlpha: 0,
+    })
   }
 };
 
@@ -128,7 +130,7 @@ gsap.to(".progress-bar", {
   scrollTrigger: {
     trigger: ".scroll-container",
     start: "0",
-    end: duration,
+    end: duration + hScrollWrapperWidth,
     scrub: true
   },
   width: "100%",
@@ -159,9 +161,7 @@ const tl = gsap.timeline({
   },
 }).set({}, {}, frameCount / frameRate / 100);
 
-const delay = 0.02;
-
-tl.to(".intro-overlay", {autoAlpha:0, duration:0.02}, 0);
+tl.to(".intro-overlay", { autoAlpha: 0, duration: 0.02 }, 0);
 
 data.timelines.forEach((item) => {
   const container = document.createElement("div");
@@ -173,7 +173,7 @@ data.timelines.forEach((item) => {
   document.querySelector(".timeline-content").appendChild(container);
   gsap.set(container, { x: item.x, y: item.y, z: -item.position });
   tl.from(container, { opacity: 0, duration: 0.02 }, item.time)
-    .to(container, { opacity: 0, duration: 0.02 }, item.time + delay);
+    .to(container, { opacity: 0, duration: 0.02 }, item.time + 0.02);
 });
 
 data.stickers.forEach((item) => {
@@ -186,7 +186,7 @@ data.stickers.forEach((item) => {
   document.querySelector(".sticker-content").appendChild(container);
   gsap.set(container, { x: item.x, y: item.y - 30 });
   tl.from(container, { y: item.y, autoAlpha: 0, duration: 0.01 }, item.time)
-    .to(container, { y: item.y, autoAlpha: 0, duration: 0.01 }, item.time + delay)
+    .to(container, { y: item.y, autoAlpha: 0, duration: 0.01 }, item.time + 0.02)
 });
 
 const closeButtons = document.querySelectorAll(".close-button");
@@ -199,3 +199,23 @@ closeButtons.forEach((button) => {
     });
   });
 });
+
+gsap.timeline({
+  scrollTrigger: {
+    pin: ".fixed",
+    trigger: ".fixed",
+    start: "left left",
+    end: () => `+=${hScrollWrapperWidth} bottom`,
+    scrub: true
+  }
+}).to(
+  hScrollWrapper, {
+  x: 0,
+  ease: "none",
+}).to(
+  ".end-overlay", {
+  opacity: 1,
+  ease: "none",
+  duration: 0.2
+}, "<");
+

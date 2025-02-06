@@ -1,1 +1,1 @@
-ffmpeg -i /Users/Aurel/Desktop/videos/salon-test/16-9/TestSalon_16-9.mp4 -vcodec libwebp -filter:v fps=fps=25 -lossless 1 -compression_level 3 -q:v 50 -preset default -an -vsync 0 -vf scale=1920:-1 /Users/Aurel/Desktop/videos/salon-test/16-9/frames/frames__%04d.webp
+ffmpeg -i /Users/Aurel/Desktop/videos/salon-test/16-9/Saint-Gobain_Test_Animacion.mp4 -vcodec libwebp -filter:v fps=fps=25 -lossless 0 -compression_level 6 -q:v 50 -an -vsync 0 -vf scale=1920:-1 /Users/Aurel/Desktop/videos/salon-test/16-9/frames/frames__%04d.webp
