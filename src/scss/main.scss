@@ -40,18 +40,19 @@ html {
 }
 
 h1 {
-    font-size: 43px;
+    font-size: 30px;
     line-height: 1.2em;
     font-family: 'Gotham-Bold', sans-serif;
+    text-shadow:5px 4px 8px rgba(0, 0, 0, 0.25);
 
     @media only screen and (max-width: 1024px) {
-        font-size: 26px;
+        font-size: 23px;
     }
 }
 
 .logo {
     position: relative;
-    width: 350px;
+    width: 300px;
     padding: 20px;
 
     @media only screen and (max-width: 1024px) {
@@ -130,7 +131,7 @@ h1 {
 
         h1 {
             margin: 20px;
-            width: 600px;
+            width: 700px;
             max-width: calc(100vw - 40px);
             text-align: center;
             align-self: center;
@@ -215,7 +216,7 @@ h1 {
         align-items: center;
         justify-content: center;
         transform: translate3d(0, 0, 0);
-        // will-change: transform;
+        will-change: transform;
 
         @media only screen and (max-width: 1024px) {
             transform: translate(0, 0) !important;
@@ -238,6 +239,7 @@ h1 {
                 font-size: 16px;
                 font-family: "Gotham-Bold", sans-serif;
                 line-height: 1.2em;
+                text-shadow:5px 4px 8px rgba(0, 0, 0, 0.25);
 
                 @media only screen and (max-width: 1024px) {
                     width: 400px;
@@ -304,13 +306,18 @@ h1 {
 }
 
 .fixed {
-    min-height: 100dvh;
-    height: auto;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     overflow-x: hidden;
+    
+    @media only screen and (max-width: 1024px) {
+        overflow-x: visible;
+        height: auto;
+    }
+
 
     .end-overlay {
         opacity: 0;

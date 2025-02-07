@@ -9,7 +9,7 @@
         {
             "x": -30,
             "y": -10,
-            "time": 0.115,
+            "time": 0.12,
             "copy": "Un sistema de aislamento térmico que cuida de los tuyos"
         },
         {
@@ -29,6 +29,19 @@
             "y": 90,
             "time": 0.28,
             "copy": "Placo® sostiene toda la diversión que se necesite, pese lo que pese"
+        },
+        {
+            "x": -50,
+            "y": -70,
+            "time": 0.38,
+            "copy": "Con Placo®, cada pared puede contar una historia, sin perder funcionalidad ni belleza."
+        },
+        {
+            "x": 30,
+            "y": -80,
+            "time": 0.485,
+            "copy": "Con Climalit® entrará la luz pero no el frío o el calor.",
+            "horizontal": true
         }
     ],
     "stickers": [
@@ -59,6 +72,20 @@
             "y": 30,
             "time": 0.32,
             "copy": "Los <b>sistemas de tabiquería futuRE</b> de Isover y Placo® <b>reducen el ruido en un 60%</b> proporcionando el aislamiento acústico adecuado para un descanso reparador."
+        },
+        {
+            "color": "#005EB8",
+            "x": 260,
+            "y": 200,
+            "time": 0.38,
+            "copy": "Las soluciones <b>Placo® Habito®</b> mejoran la <b>resistencia a impactos</b> y están diseñadas para ofrecer <b>acabados perfectos</b> y duraderos."
+        },
+        {
+            "color": "#0195CC",
+            "x": 240,
+            "y": 160,
+            "time": 0.485,
+            "copy": "Las soluciones Climalit® combinan <b>doble acristalamiento</b> para mejorar hasta <b>5 veces el confort térmico en invierno</b> y <b>reducir</b> más de un <b>60% el calor del verano</b> en el hogar, en comparación con ventanas de vidrio simple. Además, <b>reduce a más de la mitad el ruido exterior</b> de la ciudad."
         }
     ]
 }

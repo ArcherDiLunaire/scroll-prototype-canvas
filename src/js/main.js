@@ -4,10 +4,16 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import data from "../data/timeline.json";
 gsap.registerPlugin(ScrollTrigger);
 
+const hScrollWrapper = document.querySelector(".h-scroll-wrapper")
+const hScrollWrapperWidth = hScrollWrapper.getBoundingClientRect().width;
+
+const loader = document.querySelector(".loading-overlay");
+const lvalue = loader.querySelector(".loading-value");
+const lbar = loader.querySelector(".loading-bar");
 
 const closeIcon = '<svg width="16px" height="16px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path id="primary" d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path></svg>';
-let device = window.matchMedia("(max-width: 1024px) and (orientation: portrait)").matches ? "mobile" : "desktop";
 
+let device = window.matchMedia("(max-width: 1024px) and (orientation: portrait)").matches ? "mobile" : "desktop";
 console.log("device", device);
 
 // path needs to be hard coded literally for images to be imported by vite.
@@ -18,22 +24,16 @@ if (device == "mobile") {
   frames = import.meta.glob("../assets/frames/desktop/*webp", { eager: true });
 }
 
-const reducer = device == "mobile" ? 1.5 : 1.5; //1, 1.5, 2 ? //reduces the amount of images loaded (ie the framerate)
-
+const reducer = device == "mobile" ? 1.5 : 1; //1, 1.5, 2 ? //reduces the amount of images loaded (ie the framerate)
 let loadedImages = 0;
 let duration = 8000;
 let frameCount = Math.floor(1376 / reducer);
 let frameRate = Math.floor(25 / reducer);
+const vidLength = frameCount / frameRate / 100;
 let width = device == "mobile" ? 1080 : 2400;
 let height = device == "mobile" ? 1920 : 1350;
+
 const urls = new Array(frameCount).fill().map((o, i) => frames[`../assets/frames/${device}/frames__${Math.ceil(i * reducer + 1).toString().padStart(4, '0')}.webp`].default);
-
-const loader = document.querySelector(".loading-overlay");
-const lvalue = loader.querySelector(".loading-value");
-const lbar = loader.querySelector(".loading-bar");
-
-const hScrollWrapper = document.querySelector(".h-scroll-wrapper")
-const hScrollWrapperWidth = hScrollWrapper.getBoundingClientRect().width;
 
 const updateProgress = () => {
   let loading = Math.ceil(((loadedImages) / (frameCount / 2)) * 100);
@@ -111,7 +111,7 @@ function imageSequence(config) {
     frame: images.length - 1,
     ease: "none",
     onUpdate: updateImage,
-    scrollTrigger: config.scrollTrigger
+    scrollTrigger: config.scrollTrigger,
   });
 }
 
@@ -138,7 +138,7 @@ gsap.to(".progress-bar", {
 });
 
 //controlling the continuous camera position on the z-axis
-gsap.to(".timeline-content", {
+const posTl = gsap.timeline({
   scrollTrigger: {
     trigger: ".scroll-container",
     start: '0',
@@ -146,9 +146,19 @@ gsap.to(".timeline-content", {
     scrub: true,
     pin: true,
   },
-  z: duration, // Moves forward on the Z-axis
+}).set({}, {}, vidLength);
+
+const hScrollTime = 0.485;
+
+posTl.to(".timeline-content",{ 
+  z: duration * (hScrollTime / vidLength), // Moves forward on the Z-axis
   ease: "none",
-});
+  duration: hScrollTime
+}, 0).to(".timeline-content",{
+  x: -400, // Moves right on the X-axis
+  ease: "none",
+  duration: vidLength - hScrollTime
+}, hScrollTime);
 
 
 //controlling the actual text animations
@@ -159,7 +169,7 @@ const tl = gsap.timeline({
     start: "0",
     end: duration,
   },
-}).set({}, {}, frameCount / frameRate / 100);
+}).set({}, {}, vidLength);
 
 tl.to(".intro-overlay", { autoAlpha: 0, duration: 0.02 }, 0);
 
@@ -169,11 +179,11 @@ data.timelines.forEach((item) => {
   container.innerHTML = `
       <p class="timeline-item__title">${item.copy}</p>
   `;
-  item.position = item.time * 100 * frameRate * duration / frameCount;
+  item.position = item.horizontal ? (item.time - 0.016) * 100 * frameRate * duration / frameCount : item.time * 100 * frameRate * duration / frameCount;
   document.querySelector(".timeline-content").appendChild(container);
   gsap.set(container, { x: item.x, y: item.y, z: -item.position });
   tl.from(container, { opacity: 0, duration: 0.02 }, item.time)
-    .to(container, { opacity: 0, duration: 0.02 }, item.time + 0.02);
+    .to(container, { opacity: 0, duration: 0.01 }, item.time + 0.02);
 });
 
 data.stickers.forEach((item) => {
