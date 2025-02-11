@@ -24,11 +24,11 @@ if (device == "mobile") {
   frames = import.meta.glob("../assets/frames/desktop/*webp", { eager: true });
 }
 
-const reducer = device == "mobile" ? 1.5 : 1; //1, 1.5, 2 ? //reduces the amount of images loaded (ie the framerate)
+const reducer = device == "mobile" ? 1.5 : 1; //1, 1.5, 2 ? //reduces the amount of images loaded (ie the framerate essantially)
 let loadedImages = 0;
-let duration = 8000;
-let frameCount = Math.floor(1300 / reducer);
-let frameRate = Math.floor(25 / reducer);
+let duration = 8000; //scroll lengh 
+let frameCount = Math.floor(1625 / reducer); // total amount of frames / reducer
+let frameRate = Math.floor(25 / reducer); // of initial video / reducer
 const vidLength = frameCount / frameRate / 100;
 let width = device == "mobile" ? 1080 : 2400;
 let height = device == "mobile" ? 1920 : 1350;
@@ -148,7 +148,7 @@ const posTl = gsap.timeline({
   },
 }).set({}, {}, vidLength);
 
-const hScrollTime = 0.485;
+const hScrollTime = 0.46;
 
 posTl.to(".timeline-content", {
   z: duration * (hScrollTime / vidLength), // Moves forward on the Z-axis
@@ -230,10 +230,9 @@ gsap.to(
   duration: 0.2,
   scrollTrigger: {
     trigger: ".end-overlay",
-    start: "100% 70%",
-    end: "100% 40%",
+    start: "100% 80%",
+    end: "100% 50%",
     scrub: true,
-    markers: true
   }
 })
 

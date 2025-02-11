@@ -33,13 +33,13 @@
         {
             "x": -50,
             "y": -70,
-            "time": 0.38,
+            "time": 0.37,
             "copy": "Con Placo®, cada pared puede contar una historia, sin perder funcionalidad ni belleza."
         },
         {
             "x": 30,
             "y": -110,
-            "time": 0.485,
+            "time": 0.46,
             "copy": "Con Climalit® entrará la luz pero no el frío o el calor.",
             "horizontal": true
         }
@@ -77,14 +77,14 @@
             "color": "#005EB8",
             "x": 260,
             "y": 200,
-            "time": 0.38,
+            "time": 0.37,
             "copy": "Las soluciones <b>Placo® Habito®</b> mejoran la <b>resistencia a impactos</b> y están diseñadas para ofrecer <b>acabados perfectos</b> y duraderos."
         },
         {
             "color": "#0195CC",
             "x": 240,
             "y": 160,
-            "time": 0.485,
+            "time": 0.46,
             "copy": "Las soluciones Climalit® combinan <b>doble acristalamiento</b> para mejorar hasta <b>5 veces el confort térmico en invierno</b> y <b>reducir</b> más de un <b>60% el calor del verano</b> en el hogar, en comparación con ventanas de vidrio simple. Además, <b>reduce a más de la mitad el ruido exterior</b> de la ciudad."
         }
     ]
