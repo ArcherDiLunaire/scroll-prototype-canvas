@@ -310,25 +310,29 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    overflow-x: hidden;
+    justify-content: flex-end;
+    position: relative;
     
     @media only screen and (max-width: 1024px) {
-        overflow-x: visible;
         height: auto;
     }
 
 
     .end-overlay {
         opacity: 0;
-        height: 50vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        position: absolute;
+        bottom:0;
+        transform: translateY(-660px);
+        margin-bottom: 40px;
         will-change: opacity;
 
         @media only screen and (max-width: 1024px) {
             opacity: 1;
+            position: relative;
+            transform: translateY(0);
         }
 
         .logo-wrapper {
@@ -351,6 +355,10 @@ h1 {
         width: 100vw;
         display: flex;
         justify-content: flex-end;
+        overflow: hidden;
+        @media only screen and (max-width: 1024px) {
+            overflow: visible;
+        }
 
         .h-scroll-wrapper {
             display: flex;
@@ -358,10 +366,12 @@ h1 {
             justify-content: center;
             min-width: fit-content;
             width: calc(100% - 40px);
-            padding: 20px;
+            padding: 0 20px;
             gap: 20px;
             transform: translateX(100%);
             margin: 0 auto;
+            min-height: 660px;
+            will-change: transform;
             
             @media only screen and (max-width: 1024px) {
                 display: inline;

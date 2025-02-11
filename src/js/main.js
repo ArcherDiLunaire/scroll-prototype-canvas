@@ -27,7 +27,7 @@ if (device == "mobile") {
 const reducer = device == "mobile" ? 1.5 : 1; //1, 1.5, 2 ? //reduces the amount of images loaded (ie the framerate)
 let loadedImages = 0;
 let duration = 8000;
-let frameCount = Math.floor(1376 / reducer);
+let frameCount = Math.floor(1300 / reducer);
 let frameRate = Math.floor(25 / reducer);
 const vidLength = frameCount / frameRate / 100;
 let width = device == "mobile" ? 1080 : 2400;
@@ -150,12 +150,12 @@ const posTl = gsap.timeline({
 
 const hScrollTime = 0.485;
 
-posTl.to(".timeline-content",{ 
+posTl.to(".timeline-content", {
   z: duration * (hScrollTime / vidLength), // Moves forward on the Z-axis
   ease: "none",
   duration: hScrollTime
-}, 0).to(".timeline-content",{
-  x: -400, // Moves right on the X-axis
+}, 0).to(".timeline-content", {
+  x: -300, // Moves right on the X-axis
   ease: "none",
   duration: vidLength - hScrollTime
 }, hScrollTime);
@@ -210,7 +210,10 @@ closeButtons.forEach((button) => {
   });
 });
 
-gsap.timeline({
+gsap.to(
+  hScrollWrapper, {
+  x: 0,
+  ease: "none",
   scrollTrigger: {
     pin: ".fixed",
     trigger: ".fixed",
@@ -218,14 +221,19 @@ gsap.timeline({
     end: () => `+=${hScrollWrapperWidth} bottom`,
     scrub: true
   }
-}).to(
-  hScrollWrapper, {
-  x: 0,
-  ease: "none",
-}).to(
+});
+
+gsap.to(
   ".end-overlay", {
   opacity: 1,
   ease: "none",
-  duration: 0.2
-}, "<");
+  duration: 0.2,
+  scrollTrigger: {
+    trigger: ".end-overlay",
+    start: "100% 70%",
+    end: "100% 40%",
+    scrub: true,
+    markers: true
+  }
+})
 
