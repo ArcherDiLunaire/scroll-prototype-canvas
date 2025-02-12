@@ -24,16 +24,16 @@ if (device == "mobile") {
   frames = import.meta.glob("../assets/frames/desktop/*webp", { eager: true });
 }
 
-const reducer = device == "mobile" ? 1.5 : 1; //1, 1.5, 2 ? //reduces the amount of images loaded (ie the framerate essantially)
+const reducer = device == "mobile" ? 1.5 : 1; //1, 1.5, 2 ? //reduces the amount of images loaded (ie the framerate essentially)
 let loadedImages = 0;
-let duration = 8000; //scroll lengh 
-let frameCount = Math.floor(1625 / reducer); // total amount of frames / reducer
-let frameRate = Math.floor(25 / reducer); // of initial video / reducer
+const duration = 8000; //scroll length 
+const frameCount = Math.floor(1625 / reducer); // total amount of frames / reducer
+const frameRate = 25 / reducer; // of initial video / reducer
 const vidLength = frameCount / frameRate / 100;
-let width = device == "mobile" ? 1080 : 2400;
-let height = device == "mobile" ? 1920 : 1350;
+const width = device == "mobile" ? 1080 : 2400;
+const height = device == "mobile" ? 1920 : 1350;
 
-const urls = new Array(frameCount).fill().map((o, i) => frames[`../assets/frames/${device}/frames__${Math.ceil(i * reducer + 1).toString().padStart(4, '0')}.webp`].default);
+const urls = new Array(frameCount).fill().map((o, i) => frames[`../assets/frames/${device}/frames__${Math.floor(i * reducer + 1).toString().padStart(4, '0')}.webp`].default);
 
 const updateProgress = () => {
   let loading = Math.ceil(((loadedImages) / (frameCount / 2)) * 100);
@@ -148,17 +148,22 @@ const posTl = gsap.timeline({
   },
 }).set({}, {}, vidLength);
 
-const hScrollTime = 0.46;
+const hScrollTime = 0.455; //change to horizontal
+const bScrollTime = 0.54; //change to backwards
 
 posTl.to(".timeline-content", {
   z: duration * (hScrollTime / vidLength), // Moves forward on the Z-axis
   ease: "none",
   duration: hScrollTime
 }, 0).to(".timeline-content", {
-  x: -300, // Moves right on the X-axis
+  x: -400, // Moves right on the X-axis
   ease: "none",
-  duration: vidLength - hScrollTime
-}, hScrollTime);
+  duration: bScrollTime - hScrollTime
+}, hScrollTime).to(".timeline-content", {
+  z: (duration * (hScrollTime / vidLength)) - 1200, // Moves backwards on the Z-axis
+  ease: "none",
+  duration: vidLength - bScrollTime
+}, bScrollTime);
 
 
 //controlling the actual text animations
@@ -179,9 +184,9 @@ data.timelines.forEach((item) => {
   container.innerHTML = `
       <p class="timeline-item__title">${item.copy}</p>
   `;
-  item.position = item.horizontal ? (item.time - 0.016) * 100 * frameRate * duration / frameCount : item.time * 100 * frameRate * duration / frameCount;
+  item.position = -item.time * 100 * frameRate * duration / frameCount;
   document.querySelector(".timeline-content").appendChild(container);
-  gsap.set(container, { x: item.x, y: item.y, z: -item.position });
+  gsap.set(container, { x: item.backwards ? item.x + 350 : item.x , y: item.y, z: item.horizontal ? item.position + 200 : item.backwards ? item.position + 1450 : item.position});
   tl.from(container, { opacity: 0, duration: 0.02 }, item.time)
     .to(container, { opacity: 0, duration: 0.01 }, item.time + 0.02);
 });
