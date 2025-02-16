@@ -292,3 +292,26 @@ gsap.to(
   }
 })
 
+// Function to track clicks
+function trackClick(element, eventName, parameters = {}) {
+  element.addEventListener('click', () => {
+    console.log(`Tracking ${eventName} click`, parameters);
+    gtag('event', eventName, parameters);
+  });
+}
+
+// Track a specific button
+const downloadButton = document.querySelector('.download-btn');
+trackClick(downloadButton, 'download-button_click', {
+  'button_id': 'download-button',
+  'button_text': downloadButton.textContent
+});
+
+// Track all links to a specific domain
+document.querySelectorAll(".btns-wrapper > a").forEach(link => {
+  trackClick(link, 'link_click', {
+    'link_url': link.href,
+    'link_text': link.textContent
+  });
+});
+
