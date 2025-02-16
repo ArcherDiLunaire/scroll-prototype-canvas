@@ -307,11 +307,11 @@ h1 {
 }
 
 .fixed {
-    height: 100dvh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     position: relative;
     
     @media only screen and (max-width: 1024px) {
@@ -319,14 +319,22 @@ h1 {
     }
 
 
+    .center-wrapper{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        max-height: 100dvh;
+    }
+
     .end-overlay {
         // opacity: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        position: absolute;
-        bottom:0;
-        transform: translateY(-660px);
+        align-items: center;
+        // position: absolute;
+        // bottom:0;
+        // transform: translateY(-500px);
         margin-bottom: 40px;
         will-change: opacity;
 
@@ -357,6 +365,7 @@ h1 {
         display: flex;
         justify-content: flex-end;
         overflow: hidden;
+        min-height: 514px;
 
         @media only screen and (max-width: 1024px) {
             overflow: visible;
@@ -364,7 +373,6 @@ h1 {
 
         .h-scroll-wrapper {
             display: flex;
-            align-items: flex-start;
             justify-content: center;
             min-width: fit-content;
             width: calc(100% - 40px);
@@ -372,8 +380,8 @@ h1 {
             gap: 20px;
             transform: translateX(100%);
             margin: 0 auto;
-            min-height: 660px;
             will-change: transform;
+            height: fit-content;
             
             @media only screen and (max-width: 1024px) {
                 display: inline;
@@ -396,10 +404,11 @@ h1 {
             justify-content: space-between;
             align-items: stretch;
             flex-direction: column;
-            max-width: 325px;
             font-size: 16px;
-
+            max-width: 570px;
+            
             @media only screen and (max-width: 1024px) {
+                min-width: 325px;
                 min-height: auto;
                 margin: 12px auto;
             }
@@ -411,7 +420,9 @@ h1 {
                 cursor: pointer;
 
                 .hidden-text {
-                    display: none;
+                    @media only screen and (max-width: 1024px) {
+                        display: none;
+                    }
 
                     ul {
                         margin: 0;
@@ -433,6 +444,11 @@ h1 {
                 .toggle-text {
                     color: #005EB8;
                     font-family: 'Gotham-Book', sans-serif;
+                    display: none;
+
+                    @media only screen and (max-width: 1024px) {
+                        display: block;
+                    }
                 }
 
                 .toggle-text::after {
@@ -455,7 +471,7 @@ h1 {
                     display: flex;
                     gap: 20px;
                     flex-direction: column;
-                    margin-bottom: 24px;
+                    margin-bottom: 20px;
                 }
 
                 summary::-webkit-details-marker {

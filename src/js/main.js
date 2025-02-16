@@ -13,7 +13,7 @@ const config = {
   desktop: {
     width: 2400,
     height: 1350,
-    reducer: 1.5
+    reducer: 1
   },
   duration: 8000,
   totalFrames: 1625,
