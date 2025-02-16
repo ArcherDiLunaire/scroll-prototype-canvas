@@ -275,22 +275,9 @@ gsap.to(
     trigger: ".fixed",
     start: "left left",
     end: () => `+=${hScrollWrapper.getBoundingClientRect().width} bottom`,
-    scrub: true
+    scrub: 1
   }
 });
-
-gsap.to(
-  ".end-overlay", {
-  opacity: 1,
-  ease: "none",
-  duration: 0.2,
-  scrollTrigger: {
-    trigger: ".end-overlay",
-    start: "100% 80%",
-    end: "100% 50%",
-    scrub: true,
-  }
-})
 
 // Function to track clicks
 function trackClick(element, eventName, parameters = {}) {
