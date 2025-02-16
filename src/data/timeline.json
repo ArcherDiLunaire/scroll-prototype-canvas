@@ -21,7 +21,7 @@
         {
             "x": 100,
             "y": 80,
-            "time": 0.225,
+            "time": 0.23,
             "copy": "...de la euforia de otros"
         },
         {
@@ -46,7 +46,7 @@
         {
             "x": -30,
             "y": -10,
-            "time": 0.54,
+            "time": 0.545,
             "copy": "Vuelve a disfrutar de tus conversaciones en un entorno agradable con Ecophon.",
             "backwards": true
         }
@@ -98,7 +98,7 @@
             "color": "#FFCD00",
             "x": 200,
             "y": 160,
-            "time": 0.54,
+            "time": 0.545,
             "copy": "El <b>93% de los comensales</b> considera el confort acústico clave para disfrutar su experiencia. Un buen <b>acondicionamiento acústico</b> puede no sólo mejorar el confort y opiniones online del negocio, sino aumentar la facturación. Ecophon proporciona el acondicionamiento acústico necesario para poder <b>crear un ambiente óptimo</b>."
         }
     ]

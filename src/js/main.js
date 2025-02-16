@@ -4,104 +4,155 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import data from "../data/timeline.json";
 gsap.registerPlugin(ScrollTrigger);
 
-const hScrollWrapper = document.querySelector(".h-scroll-wrapper")
-const hScrollWrapperWidth = hScrollWrapper.getBoundingClientRect().width;
+const config = {
+  mobile: {
+    width: 1080,
+    height: 1920,
+    reducer: 1.5
+  },
+  desktop: {
+    width: 2400,
+    height: 1350,
+    reducer: 1.5
+  },
+  duration: 8000,
+  totalFrames: 1625,
+  baseFrameRate: 25,
+  batchSize: 10 // Number of images to load simultaneously
+};
 
-const loader = document.querySelector(".loading-overlay");
-const lvalue = loader.querySelector(".loading-value");
-const lbar = loader.querySelector(".loading-bar");
-
+const device = window.matchMedia("(max-width: 1024px) and (orientation: portrait)").matches ? "mobile" : "desktop";
+const frameCount = Math.floor(config.totalFrames / config[device].reducer);
+const frameRate = config.baseFrameRate / config[device].reducer;
+const vidLength = frameCount / frameRate / 100;
+const hScrollWrapper = document.querySelector(".h-scroll-wrapper");
 const closeIcon = '<svg width="16px" height="16px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path id="primary" d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path></svg>';
 
-let device = window.matchMedia("(max-width: 1024px) and (orientation: portrait)").matches ? "mobile" : "desktop";
-console.log("device", device);
+class ImageLoader {
+  constructor() {
+    this.startTime = performance.now();
+    this.loadedImages = 0;
+    this.elements = {
+      loader: document.querySelector(".loading-overlay"),
+      lvalue: document.querySelector(".loading-value"),
+      lbar: document.querySelector(".loading-bar")
+    };
 
-// path needs to be hard coded literally for images to be imported by vite.
-let frames;
-if (device == "mobile") {
-  frames = import.meta.glob("../assets/frames/mobile/*webp", { eager: true });
-} else {
-  frames = import.meta.glob("../assets/frames/desktop/*webp", { eager: true });
-}
+    // Create URL array using dynamic imports
+    this.frames = device === "mobile" 
+      ? import.meta.glob("../assets/frames/mobile/*webp", { eager: true })
+      : import.meta.glob("../assets/frames/desktop/*webp", { eager: true });
 
-const reducer = device == "mobile" ? 1.5 : 1; //1, 1.5, 2 ? //reduces the amount of images loaded (ie the framerate essentially)
-let loadedImages = 0;
-const duration = 8000; //scroll length 
-const frameCount = Math.floor(1625 / reducer); // total amount of frames / reducer
-const frameRate = 25 / reducer; // of initial video / reducer
-const vidLength = frameCount / frameRate / 100;
-const width = device == "mobile" ? 1080 : 2400;
-const height = device == "mobile" ? 1920 : 1350;
+    this.urls = this.generateUrls();
+    this.imageCache = new Map(); // Cache for loaded images
+  }
 
-const urls = new Array(frameCount).fill().map((o, i) => frames[`../assets/frames/${device}/frames__${Math.floor(i * reducer + 1).toString().padStart(4, '0')}.webp`].default);
-
-const updateProgress = () => {
-  let loading = Math.ceil(((loadedImages) / (frameCount / 2)) * 100);
-
-  if (loading <= 100) {
-    lvalue.querySelector("span").textContent = loading + "%";
-
-    gsap.to(lbar, {
-      width: `${loading}%`,
-      duration: 0.3,
-      ease: "power2.out",
+  generateUrls() {
+    return new Array(frameCount).fill().map((_, i) => {
+      const frameNumber = Math.floor(i * config[device].reducer + 1).toString().padStart(4, '0');
+      return this.frames[`../assets/frames/${device}/frames__${frameNumber}.webp`].default;
     });
   }
 
-  if (loading === 100) {
-    document.body.style.overflow = "auto";
-    gsap.timeline().to(".loading-container", {
-      autoAlpha: 0,
-      duration: 0.3,
-      delay: 0.5,
-    }).to(".loading-overlay", {
-      yPercent: -100,
-      duration: 0.8,
-      ease: "power2.in",
-    }).to(".loading-overlay", {
-      autoAlpha: 0,
-    })
-  }
-};
-
-const preloadImages = () => {
-  return Promise.all(
-    urls.map((path) => {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.src = path;
-        img.onload = () => {
-          loadedImages++;
-          updateProgress();
-          resolve();
-        };
-        img.onerror = () => {
-          console.error(`Failed to load: ${path}`);
-          loadedImages++;
-          updateProgress();
-          resolve();
-        };
+  updateProgress() {
+    const loading = Math.ceil((this.loadedImages / (frameCount / 2)) * 100);
+    
+    if (loading <= 100) {
+      this.elements.lvalue.querySelector("span").textContent = `${loading}%`;
+      
+      gsap.to(this.elements.lbar, {
+        width: `${loading}%`,
+        duration: 0.3,
+        ease: "power2.out"
       });
-    })
-  );
-};
+    }
 
-preloadImages();
+    if (loading === 100) {
+      this.completeLoading();
+    }
+  }
 
-function imageSequence(config) {
-  let c = gsap.utils.toArray(config.canvas)[0];
-  c.width = width;
-  c.height = height;
+  completeLoading() {
+    const endTime = performance.now();
+    console.log(`Total loading time: ${(endTime - this.startTime) / 1000} seconds`);
+    document.body.style.overflow = "auto";
+    gsap.timeline()
+      .to(".loading-container", {
+        autoAlpha: 0,
+        duration: 0.3,
+        delay: 0.5
+      })
+      .to(".loading-overlay", {
+        yPercent: -100,
+        duration: 0.8,
+        ease: "power2.in"
+      })
+      .to(".loading-overlay", {
+        autoAlpha: 0
+      });
+  }
+
+  async loadImageBatch(urls) {
+    return Promise.all(
+      urls.map(url => 
+        new Promise((resolve) => {
+          if (this.imageCache.has(url)) {
+            this.loadedImages++;
+            this.updateProgress();
+            resolve(this.imageCache.get(url));
+            return;
+          }
+
+          const img = new Image();
+          img.src = url;
+          
+          const handleComplete = () => {
+            this.loadedImages++;
+            this.updateProgress();
+            this.imageCache.set(url, img);
+            resolve(img);
+          };
+
+          img.onload = handleComplete;
+          img.onerror = () => {
+            console.error(`Failed to load: ${url}`);
+            handleComplete();
+          };
+        })
+      )
+    );
+  }
+
+  async preloadImages() {
+    const batches = [];
+    for (let i = 0; i < this.urls.length; i += config.batchSize) {
+      batches.push(this.urls.slice(i, i + config.batchSize));
+    }
+
+    for (const batch of batches) {
+      await this.loadImageBatch(batch);
+    }
+  }
+}
+
+// Initialize and start loading
+const loader = new ImageLoader();
+loader.preloadImages();
+
+function imageSequence(scrollConfig) {
+  let c = gsap.utils.toArray(scrollConfig.canvas)[0];
+  c.width = config[device].width;
+  c.height = config[device].height;
   let playhead = { frame: 0 },
     ctx = c.getContext("2d"),
-    onUpdate = config.onUpdate,
+    onUpdate = scrollConfig.onUpdate,
     images,
     updateImage = function () {
       ctx.drawImage(images[Math.round(playhead.frame)], 0, 0);
       onUpdate && onUpdate.call(this);
       // console.log("frame", playhead.frame);
     };
-  images = config.urls.map((url, i) => {
+  images = scrollConfig.urls.map((url, i) => {
     let img = new Image();
     img.src = url;
     i || (img.onload = updateImage);
@@ -111,17 +162,17 @@ function imageSequence(config) {
     frame: images.length - 1,
     ease: "none",
     onUpdate: updateImage,
-    scrollTrigger: config.scrollTrigger,
+    scrollTrigger: scrollConfig.scrollTrigger,
   });
 }
 
 imageSequence({
-  urls, // Array of image URLs
+  urls: loader.urls, // Array of image URLs
   canvas: "#video-canvas", // <canvas> object to draw images to
   scrollTrigger: {
     trigger: ".scroll-container",
     start: "0",   // start at the very top
-    end: duration, // end at the very bottom
+    end: config.duration, // end at the very bottom
     scrub: true, // important!
   }
 });
@@ -130,7 +181,7 @@ gsap.to(".progress-bar", {
   scrollTrigger: {
     trigger: ".scroll-container",
     start: "0",
-    end: duration + hScrollWrapperWidth,
+    end: config.duration + hScrollWrapper.getBoundingClientRect().width,
     scrub: true
   },
   width: "100%",
@@ -142,17 +193,17 @@ const posTl = gsap.timeline({
   scrollTrigger: {
     trigger: ".scroll-container",
     start: '0',
-    end: duration,
+    end: config.duration,
     scrub: true,
     pin: true,
   },
 }).set({}, {}, vidLength);
 
 const hScrollTime = 0.455; //change to horizontal
-const bScrollTime = 0.54; //change to backwards
+const bScrollTime = 0.545; //change to backwards
 
 posTl.to(".timeline-content", {
-  z: duration * (hScrollTime / vidLength), // Moves forward on the Z-axis
+  z: config.duration * (hScrollTime / vidLength), // Moves forward on the Z-axis
   ease: "none",
   duration: hScrollTime
 }, 0).to(".timeline-content", {
@@ -160,7 +211,7 @@ posTl.to(".timeline-content", {
   ease: "none",
   duration: bScrollTime - hScrollTime
 }, hScrollTime).to(".timeline-content", {
-  z: (duration * (hScrollTime / vidLength)) - 1200, // Moves backwards on the Z-axis
+  z: (config.duration * (hScrollTime / vidLength)) - 1200, // Moves backwards on the Z-axis
   ease: "none",
   duration: vidLength - bScrollTime
 }, bScrollTime);
@@ -172,7 +223,7 @@ const tl = gsap.timeline({
     trigger: ".scroll-container",
     scrub: true,
     start: "0",
-    end: duration,
+    end: config.duration,
   },
 }).set({}, {}, vidLength);
 
@@ -184,7 +235,7 @@ data.timelines.forEach((item) => {
   container.innerHTML = `
       <p class="timeline-item__title">${item.copy}</p>
   `;
-  item.position = -item.time * 100 * frameRate * duration / frameCount;
+  item.position = -item.time * 100 * frameRate * config.duration / frameCount;
   document.querySelector(".timeline-content").appendChild(container);
   gsap.set(container, { x: item.backwards ? item.x + 350 : item.x , y: item.y, z: item.horizontal ? item.position + 200 : item.backwards ? item.position + 1450 : item.position});
   tl.from(container, { opacity: 0, duration: 0.02 }, item.time)
@@ -223,7 +274,7 @@ gsap.to(
     pin: ".fixed",
     trigger: ".fixed",
     start: "left left",
-    end: () => `+=${hScrollWrapperWidth} bottom`,
+    end: () => `+=${hScrollWrapper.getBoundingClientRect().width} bottom`,
     scrub: true
   }
 });
