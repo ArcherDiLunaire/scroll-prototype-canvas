@@ -217,7 +217,7 @@ h1 {
         align-items: center;
         justify-content: center;
         transform: translate3d(0, 0, 0);
-        will-change: transform;
+        // will-change: transform;
 
         @media only screen and (max-width: 1024px) {
             transform: translate(0, 0) !important;
@@ -327,14 +327,10 @@ h1 {
     }
 
     .end-overlay {
-        // opacity: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        // position: absolute;
-        // bottom:0;
-        // transform: translateY(-500px);
         margin-bottom: 40px;
         will-change: opacity;
 

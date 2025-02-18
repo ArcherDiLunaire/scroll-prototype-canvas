@@ -11,14 +11,14 @@ const config = {
     reducer: 1.5
   },
   desktop: {
-    width: 2400,
-    height: 1350,
-    reducer: 1
+    width: 1920,
+    height: 1080,
+    reducer: 1.5
   },
   duration: 8000,
-  totalFrames: 1625,
+  totalFrames: 1585,
   baseFrameRate: 25,
-  batchSize: 10 // Number of images to load simultaneously
+  batchSize: 20 // Number of images to load simultaneously
 };
 
 const device = window.matchMedia("(max-width: 1024px) and (orientation: portrait)").matches ? "mobile" : "desktop";
@@ -40,8 +40,8 @@ class ImageLoader {
 
     // Create URL array using dynamic imports
     this.frames = device === "mobile" 
-      ? import.meta.glob("../assets/frames/mobile/*webp", { eager: true })
-      : import.meta.glob("../assets/frames/desktop/*webp", { eager: true });
+      ? import.meta.glob("../assets/frames/mobile/*webp", { eager: true, query: '?url', import: 'default'})
+      : import.meta.glob("../assets/frames/desktop/*webp", { eager: true, query: '?url', import: 'default'});
 
     this.urls = this.generateUrls();
     this.imageCache = new Map(); // Cache for loaded images
@@ -50,7 +50,7 @@ class ImageLoader {
   generateUrls() {
     return new Array(frameCount).fill().map((_, i) => {
       const frameNumber = Math.floor(i * config[device].reducer + 1).toString().padStart(4, '0');
-      return this.frames[`../assets/frames/${device}/frames__${frameNumber}.webp`].default;
+      return this.frames[`../assets/frames/${device}/frames__${frameNumber}.webp`];
     });
   }
 
@@ -150,7 +150,6 @@ function imageSequence(scrollConfig) {
     updateImage = function () {
       ctx.drawImage(images[Math.round(playhead.frame)], 0, 0);
       onUpdate && onUpdate.call(this);
-      // console.log("frame", playhead.frame);
     };
   images = scrollConfig.urls.map((url, i) => {
     let img = new Image();
@@ -199,15 +198,15 @@ const posTl = gsap.timeline({
   },
 }).set({}, {}, vidLength);
 
-const hScrollTime = 0.455; //change to horizontal
-const bScrollTime = 0.545; //change to backwards
+const hScrollTime = 0.455; //when to change to horizontal
+const bScrollTime = 0.545; //when to change to backwards
 
 posTl.to(".timeline-content", {
   z: config.duration * (hScrollTime / vidLength), // Moves forward on the Z-axis
   ease: "none",
   duration: hScrollTime
 }, 0).to(".timeline-content", {
-  x: -400, // Moves right on the X-axis
+  x: -400, // Moves horizontal right on the X-axis
   ease: "none",
   duration: bScrollTime - hScrollTime
 }, hScrollTime).to(".timeline-content", {
@@ -275,7 +274,7 @@ gsap.to(
     trigger: ".fixed",
     start: "left left",
     end: () => `+=${hScrollWrapper.getBoundingClientRect().width} bottom`,
-    scrub: 1
+    scrub: true
   }
 });
 
