@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import { glob } from 'glob'
 
 export default defineConfig({
   base: "./",
@@ -13,8 +14,12 @@ export default defineConfig({
           'vendor': ['gsap/ScrollTrigger'],
           
           // Split image chunks by folders
-          'images-mobile': ['./src/assets/frames/mobile/'],
-          'images-desktop': ['./src/assets/frames/desktop/'],
+          ...Object.fromEntries(
+            glob.sync('src/assets/frames/*/*.{webp}').map(file => {
+              const folder = file.split('/')[3] // either 'mobile' or 'desktop'
+              return [`images-${folder}`, [file]]
+            })
+          )
         }
       }
     },
