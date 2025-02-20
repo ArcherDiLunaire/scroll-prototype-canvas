@@ -30,7 +30,6 @@ const closeIcon = '<svg width="16px" height="16px" viewBox="0 0 24 24" xmlns="ht
 
 class ImageLoader {
   constructor() {
-    this.startTime = performance.now();
     this.loadedImages = 0;
     this.elements = {
       loader: document.querySelector(".loading-overlay"),
@@ -73,8 +72,6 @@ class ImageLoader {
   }
 
   completeLoading() {
-    const endTime = performance.now();
-    console.log(`Total loading time: ${(endTime - this.startTime) / 1000} seconds`);
     document.body.style.overflow = "auto";
     gsap.timeline()
       .to(".loading-container", {
@@ -115,7 +112,7 @@ class ImageLoader {
 
           img.onload = handleComplete;
           img.onerror = () => {
-            console.error(`Failed to load: ${url}`);
+            // console.error(`Failed to load: ${url}`);
             handleComplete();
           };
         })
