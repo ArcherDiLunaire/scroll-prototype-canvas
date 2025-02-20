@@ -365,7 +365,7 @@ h1 {
         display: flex;
         justify-content: flex-end;
         overflow: hidden;
-        min-height: 514px;
+        min-height: 462px;
 
         @media only screen and (max-width: 1024px) {
             overflow: visible;
@@ -500,7 +500,6 @@ h1 {
                 width: 100%;
                 border-radius: 6px;
                 padding: 10px 20px;
-                margin: 5px 0px;
                 cursor: pointer;
                 font-size: 16px;
                 display: flex;
