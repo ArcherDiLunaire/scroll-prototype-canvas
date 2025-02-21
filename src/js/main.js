@@ -16,7 +16,7 @@ const config = {
     reducer: 1.5
   },
   duration: 8000,
-  totalFrames: 1585,
+  totalFrames: 1565,
   baseFrameRate: 25,
   batchSize: 20 // Number of images to load simultaneously
 };
