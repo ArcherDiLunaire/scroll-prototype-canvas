@@ -220,6 +220,11 @@ const tl = gsap.timeline({
     scrub: true,
     start: "0",
     end: config.duration,
+    onUpdate: (self) => {
+        console.log(
+            'progress:',
+            (self.progress * vidLength).toFixed(3),
+        )}
   },
 }).set({}, {}, vidLength);
 

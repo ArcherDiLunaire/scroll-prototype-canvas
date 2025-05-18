@@ -2,14 +2,9 @@
 <html lang="en">
 
 <head>
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-TQ52N3NP');</script>
-  <!-- End Google Tag Manager -->
-   
+
+  <!-- GTM script will be loaded after consent -->
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <title>Tu hogar Saint-Gobain</title>
@@ -20,10 +15,6 @@
 </head>
 
 <body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TQ52N3NP" height="0" width="0"
-      style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
   <section class="loading-overlay">
     <img class="logo" src="./Logos/SaintGobainGroup.png" width="379" height="160" alt="Saint Gobain logo">
     <div class="loading-container">
@@ -43,7 +34,7 @@
         <img class="logo" src="./Logos/SaintGobainGroupColor.png" width="472" height="199"
           alt="saint Gobain colour logo">
       </div>
-      <h1>Tenemos todas las piezas para (re)imaginar tu hogar perfecto</h1>
+      <h1>Tenemos todas las piezas para hacer tu hogar confortable</h1>
     </div>
     <div class="info">
       <span>Descubre cómo nuestras soluciones
@@ -66,7 +57,7 @@
         <div class="logo-wrapper">
           <img class="logo" src="./Logos/SaintGobainGroup.png" width="379" height="160" alt="saint Gobain colour logo">
         </div>
-        <h1>Todas las piezas para crear espacios únicos.</h1>
+        <h1>Tenemos todas las piezas para hacer tu hogar confortable</h1>
       </div>
       <div class="cards-container">
         <div class="h-scroll-wrapper">
@@ -231,6 +222,50 @@
       </div>
     </div>
   </section>
+
+  <div id="cookie-banner" class="cookie-banner">
+    <div class="cookie-message">
+      Utilizamos cookies para mejorar tu experiencia. Puedes aceptar o rechazar las cookies no esenciales.
+    </div>
+    <div class="cookie-buttons">
+      <button id="accept-cookies">Aceptar</button>
+      <button id="reject-cookies">Rechazar</button>
+    </div>
+  </div>
 </body>
+
+<script>
+  const banner = document.getElementById('cookie-banner');
+  const acceptBtn = document.getElementById('accept-cookies');
+  const rejectBtn = document.getElementById('reject-cookies');
+
+  function loadGTM() {
+    const gtmScript = document.createElement('script');
+    gtmScript.async = true;
+    gtmScript.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-TQ52N3NP';
+    document.head.appendChild(gtmScript);
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+  }
+
+  const consent = localStorage.getItem('cookieConsent');
+  if (!consent) {
+    banner.style.display = 'flex';
+  } else if (consent === 'accepted') {
+    loadGTM();
+  }
+
+  acceptBtn.addEventListener('click', () => {
+    localStorage.setItem('cookieConsent', 'accepted');
+    banner.style.display = 'none';
+    loadGTM();
+  });
+
+  rejectBtn.addEventListener('click', () => {
+    localStorage.setItem('cookieConsent', 'rejected');
+    banner.style.display = 'none';
+  });
+</script>
+
 
 </html>

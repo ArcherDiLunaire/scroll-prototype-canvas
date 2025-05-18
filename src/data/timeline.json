@@ -4,50 +4,44 @@
             "x": 0,
             "y": -110,
             "time": 0.045,
-            "copy": "Con weber, protegemos tu hogar desde el exterior"
+            "copy": "<b>Weber es la solución de fachada SATE.</b> SATE es un sistema de aislamiento térmico exterior que cuida de los tuyos."
         },
         {
             "x": -30,
-            "y": -10,
+            "y": 50,
             "time": 0.12,
-            "copy": "Un sistema de aislamento térmico que cuida de los tuyos"
-        },
-        {
-            "x": -50,
-            "y": 60,
-            "time": 0.165,
-            "copy": "Isover aisla el sueño de unos..."
+            "copy": "<b>Isover es la solución de aislamiento</b>"
         },
         {
             "x": 100,
             "y": 80,
             "time": 0.23,
-            "copy": "...de la euforia de otros"
+            "copy": "Aísla el sueño de unos de la euforia de otros."
         },
         {
             "x": 0,
             "y": 90,
             "time": 0.28,
-            "copy": "Placo® sostiene toda la diversión que se necesite, pese lo que pese"
+            "copy": "<b>Placo® es la solución para tus paredes.</b> Sostiene toda la diversión que se necesite, pese lo que pese."
         },
         {
             "x": -50,
             "y": -70,
             "time": 0.38,
-            "copy": "Con Placo®, cada pared puede contar una historia, sin perder funcionalidad ni belleza."
+            "copy": "Cada pared puede contar una historia, sin perder funcionalidad ni belleza."
         },
         {
             "x": 30,
             "y": -110,
             "time": 0.455,
-            "copy": "Con Climalit® entrará la luz pero no el frío o el calor.",
+            "copy": "<b>Climalit® es la solución de vidrio para tus ventanas.</b> Entrará la luz pero ni el frío ni el calor.",
             "horizontal": true
         },
         {
             "x": -30,
             "y": -10,
             "time": 0.545,
-            "copy": "Vuelve a disfrutar de tus conversaciones en un entorno agradable con Ecophon.",
+            "copy": "<b>Ecophon es la solución de acondicionamieto acústico para tus techos y paredes.</b> Vuelve a disfrutar de tus conversaciones ",
             "backwards": true
         }
     ],
@@ -56,14 +50,14 @@
             "color": "#FFEB00",
             "x": 240,
             "y": 150,
-            "time": 0.14,
-            "copy": "Con los sistemas <b>SATE</b> webertherm <b>reduce un 40% el consumo energético</b> en tu hogar."
+            "time": 0.08,
+            "copy": "Con los sistemas <b>SATE webertherm</b> reduce un <b>40% el consumo energético</b> en tu hogar."
         },
         {
             "color": "#FFEB00",
             "x": -270,
             "y": 110,
-            "time": 0.245,
+            "time": 0.16,
             "copy": "Isover <b>reduce el ruido</b> entre estancias hasta en un <b>50%</b>, proporcionando un ambiente más tranquilo y privado."
         },
         {
