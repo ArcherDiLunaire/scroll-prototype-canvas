@@ -32,7 +32,7 @@
         },
         {
             "x": 30,
-            "y": -110,
+            "y": -230,
             "time": 0.455,
             "copy": "<b>Climalit® es la solución de vidrio para tus ventanas.</b> Entrará la luz pero ni el frío ni el calor.",
             "horizontal": true
@@ -51,7 +51,7 @@
             "x": 240,
             "y": 150,
             "time": 0.08,
-            "copy": "Con los sistemas <b>SATE webertherm</b> reduce un <b>40% el consumo energético</b> en tu hogar."
+            "copy": "Con los sistemas <b>SATE webertherm</b> se reduce un <b>40% el consumo energético</b> en tu hogar."
         },
         {
             "color": "#FFEB00",
@@ -93,7 +93,27 @@
             "x": 200,
             "y": 160,
             "time": 0.545,
-            "copy": "El <b>93% de los comensales</b> considera el confort acústico clave para disfrutar su experiencia. Un buen <b>acondicionamiento acústico</b> puede no sólo mejorar el confort y opiniones online del negocio, sino aumentar la facturación. Ecophon proporciona el acondicionamiento acústico necesario para poder <b>crear un ambiente óptimo</b>."
+            "copy": "El <b>93% de los comensales</b> considera clave el confort acústico para disfrutar su experiencia. Un buen <b>acondicionamiento acústico</b> puede no sólo mejorar el confort y opiniones online del negocio, sino aumentar la facturación. Ecophon proporciona el acondicionamiento acústico necesario para poder <b>crear un ambiente óptimo</b>."
+        }
+    ],
+    "audio": [
+        {
+            "name": "city_loop",
+            "stop": 0.12
+        },
+        {
+            "name": "brasserie_loop",
+            "start": 0.53,
+            "stop": 0.548
+        },
+        {
+            "name": "low_brasserie_loop",
+            "start": 0.548,
+            "stop": 0.61
+        },
+        {
+            "name": "city_loop",
+            "start": 0.585
         }
     ]
 }

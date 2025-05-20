@@ -2,6 +2,8 @@ import "../scss/main.scss";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import data from "../data/timeline.json";
+import { Howl, Howler } from 'howler';
+import Audio from '../assets/audio/audio.mp3';
 gsap.registerPlugin(ScrollTrigger);
 
 const config = {
@@ -18,9 +20,14 @@ const config = {
   duration: 8000,
   totalFrames: 1565,
   baseFrameRate: 25,
-  batchSize: 20 // Number of images to load simultaneously
+  batchSize: 20, // Number of images to load simultaneously
+  muted: false,
+  isPlaying: [],
+  unlocked: false
 };
 
+const audioBtn = document.querySelector(".audio-btn");
+audioBtn.addEventListener("click", toggleMute);
 const device = window.matchMedia("(max-width: 1024px) and (orientation: portrait)").matches ? "mobile" : "desktop";
 const frameCount = Math.floor(config.totalFrames / config[device].reducer);
 const frameRate = config.baseFrameRate / config[device].reducer;
@@ -38,9 +45,9 @@ class ImageLoader {
     };
 
     // Create URL array using dynamic imports
-    this.frames = device === "mobile" 
-      ? import.meta.glob("../assets/frames/mobile/*webp", { eager: true, query: '?url', import: 'default'})
-      : import.meta.glob("../assets/frames/desktop/*webp", { eager: true, query: '?url', import: 'default'});
+    this.frames = device === "mobile"
+      ? import.meta.glob("../assets/frames/mobile/*webp", { eager: true, query: '?url', import: 'default' })
+      : import.meta.glob("../assets/frames/desktop/*webp", { eager: true, query: '?url', import: 'default' });
 
     this.urls = this.generateUrls();
     this.imageCache = new Map(); // Cache for loaded images
@@ -55,10 +62,10 @@ class ImageLoader {
 
   updateProgress() {
     const loading = Math.ceil((this.loadedImages / (frameCount / 2)) * 100);
-    
+
     if (loading <= 100) {
       this.elements.lvalue.querySelector("span").textContent = `${loading}%`;
-      
+
       gsap.to(this.elements.lbar, {
         width: `${loading}%`,
         duration: 0.3,
@@ -91,7 +98,7 @@ class ImageLoader {
 
   async loadImageBatch(urls) {
     return Promise.all(
-      urls.map(url => 
+      urls.map(url =>
         new Promise((resolve) => {
           if (this.imageCache.has(url)) {
             this.loadedImages++;
@@ -102,7 +109,7 @@ class ImageLoader {
 
           const img = new Image();
           img.src = url;
-          
+
           const handleComplete = () => {
             this.loadedImages++;
             this.updateProgress();
@@ -221,10 +228,11 @@ const tl = gsap.timeline({
     start: "0",
     end: config.duration,
     onUpdate: (self) => {
-        console.log(
-            'progress:',
-            (self.progress * vidLength).toFixed(3),
-        )}
+      console.log(
+        'progress:',
+        (self.progress * vidLength).toFixed(3),
+      )
+    }
   },
 }).set({}, {}, vidLength);
 
@@ -238,7 +246,7 @@ data.timelines.forEach((item) => {
   `;
   item.position = -item.time * 100 * frameRate * config.duration / frameCount;
   document.querySelector(".timeline-content").appendChild(container);
-  gsap.set(container, { x: item.backwards ? item.x + 350 : item.x , y: item.y, z: item.horizontal ? item.position + 200 : item.backwards ? item.position + 1450 : item.position});
+  gsap.set(container, { x: item.backwards ? item.x + 350 : item.x, y: item.y, z: item.horizontal ? item.position + 200 : item.backwards ? item.position + 1450 : item.position });
   tl.from(container, { opacity: 0, duration: 0.02 }, item.time)
     .to(container, { opacity: 0, duration: 0.01 }, item.time + 0.02);
 });
@@ -255,6 +263,80 @@ data.stickers.forEach((item) => {
   tl.from(container, { y: item.y, autoAlpha: 0, duration: 0.01 }, item.time)
     .to(container, { y: item.y, autoAlpha: 0, duration: 0.01 }, item.time + 0.02)
 });
+
+const sound = new Howl({
+  src: Audio,
+  preload: true,
+  loop: true,
+  sprite: {
+    brasserie_loop: [
+      0,
+      15072.65306122449
+    ],
+    car_loop: [
+      17000,
+      18102.857142857145
+    ],
+    city_loop: [
+      37000,
+      20114.285714285714
+    ],
+    low_brasserie_loop: [
+      59000,
+      15098.775510204077
+    ]
+  },
+  onunlock: () => {
+    console.log("Audio unlocked", config.isPlaying.length);
+    config.unlocked = true;
+    if (config.isPlaying.length > 0) {
+      config.isPlaying.forEach(id => {
+        sound.play(id);
+        sound.pause(id);
+        sound.play(id);
+        sound.fade(0, 1, 1000, id);
+      });
+      // sound.play(config.isPlaying);
+      // sound.pause(config.isPlaying);
+      // sound.play(config.isPlaying);
+    }
+  }
+});
+
+toggleMute();
+
+data.audio.forEach((item, i) => {
+  let id = sound.play(item.name);
+  sound.pause(id);
+  item.start && tl.call(toggleAudio, [id], item.start)
+  item.stop && tl.call(toggleAudio, [id], item.stop);
+  if (i === 0) { toggleAudio(id); }
+})
+
+function toggleAudio(id) {
+  console.log(config.isPlaying.includes(id) ? "pause" : "play", id);
+  if (config.isPlaying.includes(id)) {
+    const el = config.isPlaying.indexOf(id);
+    config.isPlaying.splice(el, 1);
+    if (!config.unlocked) return;
+    sound.fade(1, 0, 100, id);
+    setTimeout(() => {
+      sound.pause(id);
+    }, 100)
+  } else {
+    config.isPlaying.push(id);
+      if (!config.unlocked) return;
+      sound.play(id);
+      sound.fade(0, 1, 100, id);
+  }
+}
+
+function toggleMute() {
+  config.muted = !config.muted;
+  Howler.mute(config.muted);
+  audioBtn.innerHTML = config.muted ? "Activar Sonido" : "Desactivar Sonido";
+  audioBtn.classList.toggle("muted");
+}
 
 const closeButtons = document.querySelectorAll(".close-button");
 closeButtons.forEach((button) => {
@@ -279,4 +361,5 @@ gsap.to(
     scrub: true
   }
 });
+
 

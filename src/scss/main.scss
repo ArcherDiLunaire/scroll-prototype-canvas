@@ -128,12 +128,12 @@ h1 {
         width: 100vw;
 
         .logo-wrapper {
-            // background-color: rgba(255, 255, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.5);
             display: flex;
             justify-content: center;
             margin: 20px;
             border-radius: 16px;
-            // padding: 20px;
+            padding: 40px;
         }
 
         h1 {
@@ -177,6 +177,39 @@ h1 {
     margin: 20px;
     width: 100px;
     height: auto;
+}
+
+.audio-btn {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 20px 10px;
+    z-index: 2;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    font-family: "Gotham-Medium", sans-serif;
+    font-size: 16px;
+    padding: 0;
+
+    &::after {
+        content: "";
+        display: block;
+        height: 20px;
+        background-image: url(./Icons/Volume_Icon_white.png);
+        width: 20px;
+        background-size: contain;
+        margin: 10px;
+    }
+
+    &.muted::after {
+        background-image: url("./Icons/Mute_Icon_white.png");
+    }
 }
 
 .progress-container {
@@ -563,7 +596,7 @@ h1 {
     gap: 10px;
     flex-direction: row;
     width: auto;
-    
+
     @media only screen and (max-width: 1024px) {
         flex-direction: column;
         align-items: stretch;
