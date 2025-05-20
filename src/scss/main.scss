@@ -201,14 +201,14 @@ h1 {
         content: "";
         display: block;
         height: 20px;
-        background-image: url(./Icons/Volume_Icon_white.png);
+        background-image: url("/Icons/Volume_Icon_white.png");
         width: 20px;
         background-size: contain;
         margin: 10px;
     }
 
     &.muted::after {
-        background-image: url("./Icons/Mute_Icon_white.png");
+        background-image: url("/Icons/Mute_Icon_white.png");
     }
 }
 
