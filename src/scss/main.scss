@@ -566,58 +566,88 @@ h1 {
     }
 }
 
-.cookie-banner {
+.cookie-wrapper {
+    display: none;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    background: #ffffff;
-    color: #000;
-    padding: 20px;
-    display: none;
-    flex-direction: column;
+    top: 0;
     z-index: 9999;
-    flex-direction: row;
     align-items: center;
-    gap: 20px;
-    justify-content: space-between;
+    justify-content: center;
+    pointer-events: none;
+    font-family: "Gotham-Book", sans-serif;
 
     @media only screen and (max-width: 1024px) {
-        flex-direction: column;
+        align-items: flex-end;
     }
-}
 
-.cookie-message {
-    font-size: 0.95rem;
-}
-
-.cookie-buttons {
-    display: flex;
-    gap: 10px;
-    flex-direction: row;
-    width: auto;
-
-    @media only screen and (max-width: 1024px) {
+    .cookie-banner {
+        display: flex;
+        background: #ffffff;
+        color: #000;
+        padding: 20px;
         flex-direction: column;
-        align-items: stretch;
-        width: 100%;
+        align-items: center;
+        gap: 16px;
+        justify-content: space-between;
+        max-width: 600px;
+        margin: 20px;
+        border-radius: 16px;
+        pointer-events: auto;
+
+        .cookie-header {
+            display: flex;
+            font-size: 1.5rem;
+            font-family: "Gotham-Bold", sans-serif;
+            text-align: center;
+            color: #17428C;
+            align-items: center;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .cookie-message {
+            font-size: 0.95rem;
+
+            a{
+                color: #17428C;
+                font-family: "Gotham-Bold", sans-serif;
+                text-decoration: none;
+            }
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 10px;
+            flex-direction: row;
+            width: 100%;
+
+            @media screen and (max-width: 1024px) {
+                flex-direction: column;
+            }
+
+            button {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+                cursor: pointer;
+                border: none;
+                border-radius: 8px;
+                width: 100%;
+                font-family: "Gotham-Book", sans-serif;
+
+                &#accept-cookies {
+                    background: #17428c;
+                    color: white;
+                }
+
+                &#reject-cookies {
+                    background: rgb(192, 192, 192);
+                    color: black;
+                }
+            }
+        }
     }
-}
 
-.cookie-buttons button {
-    padding: 10px 20px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    border: none;
-    border-radius: 8px;
-}
-
-#accept-cookies {
-    background: rgb(23, 66, 140);
-    color: white;
-}
-
-#reject-cookies {
-    background: rgb(192, 192, 192);
-    color: black;
 }

@@ -102,6 +102,11 @@
             "stop": 0.12
         },
         {
+            "name": "car_loop",
+            "start": 0.235,
+            "stop": 0.280
+        },
+        {
             "name": "brasserie_loop",
             "start": 0.53,
             "stop": 0.548
@@ -109,7 +114,7 @@
         {
             "name": "low_brasserie_loop",
             "start": 0.548,
-            "stop": 0.61
+            "stop": 0.612
         },
         {
             "name": "city_loop",

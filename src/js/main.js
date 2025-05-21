@@ -10,20 +10,21 @@ const config = {
   mobile: {
     width: 1080,
     height: 1920,
-    reducer: 1.5
+    reducer: 1 // adjust the frame rate for loading
   },
   desktop: {
     width: 1920,
     height: 1080,
-    reducer: 1.5
+    reducer: 1 // adjust the frame rate for loading
   },
   duration: 8000,
-  totalFrames: 1565,
+  totalFrames: 1573,
   baseFrameRate: 25,
   batchSize: 20, // Number of images to load simultaneously
   muted: false,
   isPlaying: [],
-  unlocked: false
+  unlocked: false,
+  storeId: null
 };
 
 const audioBtn = document.querySelector(".audio-btn");
@@ -119,7 +120,6 @@ class ImageLoader {
 
           img.onload = handleComplete;
           img.onerror = () => {
-            // console.error(`Failed to load: ${url}`);
             handleComplete();
           };
         })
@@ -228,10 +228,7 @@ const tl = gsap.timeline({
     start: "0",
     end: config.duration,
     onUpdate: (self) => {
-      console.log(
-        'progress:',
-        (self.progress * vidLength).toFixed(3),
-      )
+      // console.log('progress:',(self.progress * vidLength).toFixed(3))
     }
   },
 }).set({}, {}, vidLength);
@@ -268,6 +265,8 @@ const sound = new Howl({
   src: Audio,
   preload: true,
   loop: true,
+  autoplay: true,
+  muted: true,
   sprite: {
     brasserie_loop: [
       0,
@@ -287,19 +286,23 @@ const sound = new Howl({
     ]
   },
   onunlock: () => {
-    console.log("Audio unlocked", config.isPlaying.length);
     config.unlocked = true;
+    sound.play(config.storeId); //used to activate the sound on unlock...
     if (config.isPlaying.length > 0) {
       config.isPlaying.forEach(id => {
-        sound.play(id);
-        sound.pause(id);
-        sound.play(id);
-        sound.fade(0, 1, 1000, id);
+        setTimeout(() => {
+          sound.play(id);
+          sound.fade(0, 1, 1000, id);
+        }, 100);
+        
       });
-      // sound.play(config.isPlaying);
-      // sound.pause(config.isPlaying);
-      // sound.play(config.isPlaying);
     }
+  },
+  onload: () => {
+    console.log("Audio loaded");
+  },
+  onplayerror: (id, err) => {
+    console.log("Audio play error", id, err);
   }
 });
 
@@ -310,11 +313,11 @@ data.audio.forEach((item, i) => {
   sound.pause(id);
   item.start && tl.call(toggleAudio, [id], item.start)
   item.stop && tl.call(toggleAudio, [id], item.stop);
-  if (i === 0) { toggleAudio(id); }
+  if (i === 0) { toggleAudio(id); config.storeId = id; }
 })
 
 function toggleAudio(id) {
-  console.log(config.isPlaying.includes(id) ? "pause" : "play", id);
+  // console.log(config.isPlaying.includes(id) ? "pause" : "play", id);
   if (config.isPlaying.includes(id)) {
     const el = config.isPlaying.indexOf(id);
     config.isPlaying.splice(el, 1);

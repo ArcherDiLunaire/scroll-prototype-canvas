@@ -56,7 +56,7 @@
     <div class="center-wrapper">
       <div class="end-overlay">
         <div class="logo-wrapper">
-          <img class="logo" src="./Logos/SaintGobainGroup.png" width="379" height="160" alt="saint Gobain colour logo">
+          <img class="logo" src="./Logos/SaintGobainGroup.png" width="379" height="160" alt="saint Gobain logo">
         </div>
         <h1>Tenemos todas las piezas para hacer tu hogar confortable</h1>
       </div>
@@ -223,20 +223,30 @@
       </div>
     </div>
   </section>
+  <div class="cookie-wrapper">
+    <div id="cookie-banner" class="cookie-banner">
+      <div class="cookie-header">
+        <span>Nuestras cookies</span>
+        <img class="cookie-logo" src="./Logos/SaintGobainGroupColor.png" height="30px" alt="saint Gobain colour logo">
+      </div>
+      <div class="cookie-message">
+        Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia en nuestro sitio web.
+        </br></br>
+        Ver <a href="https://www.saint-gobain.es/cookies" target="_blank">política de cookies</a>. Ver <a href="https://www.saint-gobain.es/politica-de-privacidad" target="_blank">política de privacidad</a>.
+      </div>
+      <div>
 
-  <div id="cookie-banner" class="cookie-banner">
-    <div class="cookie-message">
-      Utilizamos cookies para mejorar tu experiencia. Puedes aceptar o rechazar las cookies no esenciales.
-    </div>
-    <div class="cookie-buttons">
-      <button id="accept-cookies">Aceptar</button>
-      <button id="reject-cookies">Rechazar</button>
+      </div>
+      <div class="cookie-buttons">
+        <button id="reject-cookies">Rechazar cookies</button>
+        <button id="accept-cookies">Permitir cookies</button>
+      </div>
     </div>
   </div>
 </body>
 
 <script>
-  const banner = document.getElementById('cookie-banner');
+  const banner = document.querySelector('.cookie-wrapper');
   const acceptBtn = document.getElementById('accept-cookies');
   const rejectBtn = document.getElementById('reject-cookies');
 
