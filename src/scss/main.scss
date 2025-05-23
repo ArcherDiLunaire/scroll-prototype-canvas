@@ -49,7 +49,7 @@ h1 {
     font-size: 30px;
     line-height: 1.2em;
     font-family: 'Gotham-Bold', sans-serif;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
 
     @media only screen and (max-width: 1024px) {
         font-size: 23px;
@@ -273,7 +273,7 @@ h1 {
 
             @media only screen and (max-width: 1024px) {
                 transform: translate(0, 0) !important;
-                top: 15%;
+                top: 10%;
             }
 
             p {
@@ -282,7 +282,7 @@ h1 {
                 font-size: 16px;
                 font-family: "Gotham-Book", sans-serif;
                 line-height: 1.2em;
-                text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+                text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
 
                 b {
                     font-family: "Gotham-Bold", sans-serif;
