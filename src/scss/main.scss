@@ -177,6 +177,7 @@ h1 {
     margin: 20px;
     width: 100px;
     height: auto;
+    z-index: 1;
 }
 
 .audio-btn {
@@ -209,6 +210,21 @@ h1 {
 
     &.muted::after {
         background-image: url("/Icons/Mute_Icon_white.png");
+    }
+}
+
+.gradient-overlay {
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 50dvh;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
+
+    @media screen and (max-width: 1024px) {
+        display: block;
     }
 }
 
@@ -273,7 +289,7 @@ h1 {
 
             @media only screen and (max-width: 1024px) {
                 transform: translate(0, 0) !important;
-                top: 10%;
+                top: 8%;
             }
 
             p {

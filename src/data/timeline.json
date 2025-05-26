@@ -31,9 +31,9 @@
             "copy": "Cada pared puede contar una historia, sin perder funcionalidad ni belleza."
         },
         {
-            "x": 0,
-            "y": -220,
-            "time": 0.443,
+            "x": 130,
+            "y": 120,
+            "time": 0.447,
             "copy": "<b>Climalit® es la solución de vidrio para tus ventanas.</b> Entrará la luz pero ni el frío ni el calor.",
             "horizontal": true
         },
@@ -84,8 +84,8 @@
         {
             "color": "#0195CC",
             "x": 240,
-            "y": 160,
-            "time": 0.443,
+            "y": -80,
+            "time": 0.47,
             "copy": "Las soluciones Climalit® combinan <b>doble acristalamiento</b> para mejorar hasta <b>5 veces el confort térmico en invierno</b> y <b>reducir</b> más de un <b>60% el calor del verano</b> en el hogar, en comparación con ventanas de vidrio simple. Además, <b>reduce a más de la mitad el ruido exterior</b> de la ciudad."
         },
         {
