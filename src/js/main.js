@@ -233,7 +233,7 @@ const tl = gsap.timeline({
     start: "0",
     end: config.duration,
     onUpdate: (self) => {
-      console.log('progress:',(self.progress * vidLength).toFixed(3))
+      // console.log('progress:',(self.progress * vidLength).toFixed(3))
     }
   },
 }).set({}, {}, vidLength);
@@ -248,7 +248,7 @@ data.timelines.forEach((item) => {
   `;
   item.position = -item.time * 100 * frameRate * config.duration / frameCount;
   document.querySelector(".timeline-content").appendChild(container);
-  gsap.set(container, { x: item.backwards ? item.x + 350 : item.x, y: item.y, z: item.horizontal ? item.position + 200 : item.backwards ? item.position + 1550 : item.position });
+  gsap.set(container, { x: item.backwards ? item.x + 350 : item.x, y: item.y, z: item.horizontal ? item.position + 180 : item.backwards ? item.position + 1550 : item.position });
   tl.from(container, { opacity: 0, duration: 0.02 }, item.time)
     .to(container, { opacity: 0, duration: 0.01 }, item.time + 0.02);
 });
