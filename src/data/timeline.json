@@ -10,7 +10,7 @@
             "x": -30,
             "y": 50,
             "time": 0.12,
-            "copy": "<b>Isover es la solución de aislamiento</b>"
+            "copy": "<b>Isover es la solución de aislamiento.</b>"
         },
         {
             "x": 100,
@@ -41,7 +41,7 @@
             "x": -30,
             "y": -10,
             "time": 0.545,
-            "copy": "<b>Ecophon es la solución de acondicionamieto acústico para tus techos y paredes.</b> Vuelve a disfrutar de tus conversaciones ",
+            "copy": "<b>Ecophon es la solución de acondicionamieto acústico para tus techos y paredes.</b> Vuelve a disfrutar de tus conversaciones.",
             "backwards": true
         }
     ],
