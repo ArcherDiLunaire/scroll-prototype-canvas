@@ -8,19 +8,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 const config = {
   mobile: {
-    width: 1080,
-    height: 1920,
-    reducer: 1 // adjust the frame rate for loading
+    width: 720,
+    height: 1280,
+    totalFrames: 787,
   },
   desktop: {
     width: 1920,
     height: 1080,
-    reducer: 1 // adjust the frame rate for loading
+    totalFrames: 1573,
   },
   duration: 8000,
-  totalFrames: 1573,
   baseFrameRate: 25,
-  batchSize: 20, // Number of images to load simultaneously
+  batchSize: 50, // Number of images to load simultaneously
   muted: false,
   isPlaying: [],
   unlocked: false,
@@ -30,8 +29,8 @@ const config = {
 const audioBtn = document.querySelector(".audio-btn");
 audioBtn.addEventListener("click", toggleMute);
 const device = window.matchMedia("(max-width: 1024px) and (orientation: portrait)").matches ? "mobile" : "desktop";
-const frameCount = Math.floor(config.totalFrames / config[device].reducer);
-const frameRate = config.baseFrameRate / config[device].reducer;
+const frameCount = Math.floor(config[device].totalFrames);
+const frameRate = config.baseFrameRate;
 const vidLength = frameCount / frameRate / 100;
 const hScrollWrapper = document.querySelector(".h-scroll-wrapper");
 const closeIcon = '<svg width="16px" height="16px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path id="primary" d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path></svg>';
@@ -56,7 +55,7 @@ class ImageLoader {
 
   generateUrls() {
     return new Array(frameCount).fill().map((_, i) => {
-      const frameNumber = Math.floor(i * config[device].reducer + 1).toString().padStart(4, '0');
+      const frameNumber = Math.floor(i + 1).toString().padStart(4, '0');
       return this.frames[`../assets/frames/${device}/frames__${frameNumber}.webp`];
     });
   }
