@@ -66,7 +66,7 @@ class ImageLoader {
   animateProgressBar() {
     // Start a continuous animation that will be synced with actual loading
     const startTime = Date.now();
-    const animationDuration = 10000; // 10 seconds base animation time
+    const animationDuration = 20000; // 20 seconds base animation time
 
     const updateAnimation = () => {
 
