@@ -60,7 +60,6 @@ h1 {
     position: relative;
     width: 350px;
     height: auto;
-    // padding: 20px;
 
     @media only screen and (max-width: 1024px) {
         width: 250px;
@@ -69,15 +68,21 @@ h1 {
 
 .loading-overlay {
     position: fixed;
-    width: 100vw;
+    width: calc(100vw - 4rem);
     height: 100dvh;
     z-index: 100;
     background-color: #17428C;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     will-change: opacity, transform;
     overflow: hidden;
+    gap: 3rem;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    text-align: center;
+    padding: 0rem 2rem;
 
     .loading-container {
         width: 100vw;
@@ -90,21 +95,27 @@ h1 {
 
         .loading-value {
             position: absolute;
-            bottom: 10px;
+            bottom: 1rem;
             width: 100%;
             font-size: 35px;
             font-weight: 600;
-            font-family: 'Gotham-Black', sans-serif;
             text-align: center;
+
+            p {
+                font-size: 0.9rem;
+                font-family: "Gotham-book", sans-serif;
+                margin: 0.3rem;
+            }
 
             span {
                 line-height: 1.2em;
+                font-family: 'Gotham-Black', sans-serif;
             }
         }
 
         .loading-bar {
             width: 0%;
-            height: 100%;
+            height: 7px;
             background: #fff;
             border-radius: 0px 16px 16px 0px;
             will-change: width;
@@ -627,7 +638,7 @@ h1 {
         .cookie-message {
             font-size: 0.95rem;
 
-            a{
+            a {
                 color: #17428C;
                 font-family: "Gotham-Bold", sans-serif;
                 text-decoration: none;
