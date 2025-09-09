@@ -35,9 +35,117 @@ const vidLength = frameCount / frameRate / 100;
 const hScrollWrapper = document.querySelector(".h-scroll-wrapper");
 const closeIcon = '<svg width="16px" height="16px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path id="primary" d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"></path></svg>';
 
+// class ImageLoader {
+//   constructor() {
+//     this.loadedImages = 0;
+//     this.elements = {
+//       loader: document.querySelector(".loading-overlay"),
+//       lvalue: document.querySelector(".loading-value"),
+//       lbar: document.querySelector(".loading-bar")
+//     };
+
+//     // Create URL array using dynamic imports
+//     this.frames = device === "mobile"
+//       ? import.meta.glob("../assets/frames/mobile/*webp", { eager: true, query: '?url', import: 'default' })
+//       : import.meta.glob("../assets/frames/desktop/*webp", { eager: true, query: '?url', import: 'default' });
+
+//     this.urls = this.generateUrls();
+//     this.imageCache = new Map(); // Cache for loaded images
+//   }
+
+//   generateUrls() {
+//     return new Array(frameCount).fill().map((_, i) => {
+//       const frameNumber = Math.floor(i + 1).toString().padStart(4, '0');
+//       return this.frames[`../assets/frames/${device}/frames__${frameNumber}.webp`];
+//     });
+//   }
+
+//   updateProgress() {
+//     const loading = Math.ceil((this.loadedImages / (frameCount / 2)) * 100);
+
+//     if (loading <= 100) {
+//       this.elements.lvalue.querySelector("span").textContent = `${loading}%`;
+
+//       gsap.to(this.elements.lbar, {
+//         width: `${loading}%`,
+//         duration: 0.3,
+//         ease: "power2.out"
+//       });
+//     }
+
+//     if (loading === 100) {
+//       this.completeLoading();
+//     }
+//   }
+
+//   completeLoading() {
+//     document.body.style.overflow = "auto";
+//     gsap.timeline()
+//       .to(".loading-container", {
+//         autoAlpha: 0,
+//         duration: 0.3,
+//         delay: 0.5
+//       })
+//       .to(".loading-overlay", {
+//         yPercent: -100,
+//         duration: 0.8,
+//         ease: "power2.in"
+//       })
+//       .to(".loading-overlay", {
+//         autoAlpha: 0
+//       });
+//   }
+
+//   async loadImageBatch(urls) {
+//     return Promise.all(
+//       urls.map(url =>
+//         new Promise((resolve) => {
+//           if (this.imageCache.has(url)) {
+//             this.loadedImages++;
+//             this.updateProgress();
+//             resolve(this.imageCache.get(url));
+//             return;
+//           }
+
+//           const img = new Image();
+//           img.src = url;
+
+//           const handleComplete = () => {
+//             this.loadedImages++;
+//             this.updateProgress();
+//             this.imageCache.set(url, img);
+//             resolve(img);
+//           };
+
+//           img.onload = handleComplete;
+//           img.onerror = () => {
+//             handleComplete();
+//           };
+//         })
+//       )
+//     );
+//   }
+
+//   async preloadImages() {
+//     const batches = [];
+//     for (let i = 0; i < this.urls.length; i += config.batchSize) {
+//       batches.push(this.urls.slice(i, i + config.batchSize));
+//     }
+
+//     for (const batch of batches) {
+//       await this.loadImageBatch(batch);
+//     }
+//   }
+// }
+
+// // Initialize and start loading
+// const loader = new ImageLoader();
+// loader.preloadImages();
+
 class ImageLoader {
   constructor() {
     this.loadedImages = 0;
+    this.targetImages = Math.ceil(frameCount / 2); // Only need half the images
     this.elements = {
       loader: document.querySelector(".loading-overlay"),
       lvalue: document.querySelector(".loading-value"),
@@ -51,6 +159,9 @@ class ImageLoader {
 
     this.urls = this.generateUrls();
     this.imageCache = new Map(); // Cache for loaded images
+    
+    // Start the loading bar animation immediately
+    this.startLoadingAnimation();
   }
 
   generateUrls() {
@@ -60,26 +171,43 @@ class ImageLoader {
     });
   }
 
+  startLoadingAnimation() {
+    // Reset progress display
+    this.elements.lvalue.querySelector("span").textContent = "0%";
+    this.elements.lbar.style.width = "0%";
+    
+    // Start a smooth animation that will sync with actual loading progress
+    gsap.set(this.elements.lbar, { width: "0%" });
+  }
+
   updateProgress() {
-    const loading = Math.ceil((this.loadedImages / (frameCount / 2)) * 100);
+    // Calculate progress based on half the total images
+    const loading = Math.ceil((this.loadedImages / this.targetImages) * 100);
+    const clampedLoading = Math.min(loading, 100);
 
-    if (loading <= 100) {
-      this.elements.lvalue.querySelector("span").textContent = `${loading}%`;
+    // Update progress text
+    this.elements.lvalue.querySelector("span").textContent = `${clampedLoading}%`;
 
-      gsap.to(this.elements.lbar, {
-        width: `${loading}%`,
-        duration: 0.3,
-        ease: "power2.out"
-      });
-    }
+    // Animate progress bar
+    gsap.to(this.elements.lbar, {
+      width: `${clampedLoading}%`,
+      duration: 0.3,
+      ease: "power2.out"
+    });
 
-    if (loading === 100) {
+    // Complete loading when we've loaded half the images
+    if (this.loadedImages >= this.targetImages) {
       this.completeLoading();
     }
   }
 
   completeLoading() {
+    // Ensure we show 100% before hiding
+    this.elements.lvalue.querySelector("span").textContent = "100%";
+    gsap.set(this.elements.lbar, { width: "100%" });
+
     document.body.style.overflow = "auto";
+    
     gsap.timeline()
       .to(".loading-container", {
         autoAlpha: 0,
@@ -119,6 +247,7 @@ class ImageLoader {
 
           img.onload = handleComplete;
           img.onerror = () => {
+            console.warn(`Failed to load frame: ${url}`);
             handleComplete();
           };
         })
@@ -127,18 +256,47 @@ class ImageLoader {
   }
 
   async preloadImages() {
+    // Only load the first half of images for initial loading
+    const imagesToLoad = this.urls.slice(0, this.targetImages);
+    
     const batches = [];
-    for (let i = 0; i < this.urls.length; i += config.batchSize) {
-      batches.push(this.urls.slice(i, i + config.batchSize));
+    for (let i = 0; i < imagesToLoad.length; i += config.batchSize) {
+      batches.push(imagesToLoad.slice(i, i + config.batchSize));
     }
 
+    // Load batches sequentially
+    for (const batch of batches) {
+      await this.loadImageBatch(batch);
+      
+      // Break early if we've reached our target
+      if (this.loadedImages >= this.targetImages) {
+        break;
+      }
+    }
+    
+    // Continue loading remaining images in background after loading completes
+    this.loadRemainingImages();
+  }
+
+  async loadRemainingImages() {
+    // Load the rest of the images in the background
+    const remainingImages = this.urls.slice(this.targetImages);
+    
+    if (remainingImages.length === 0) return;
+    
+    const batches = [];
+    for (let i = 0; i < remainingImages.length; i += config.batchSize) {
+      batches.push(remainingImages.slice(i, i + config.batchSize));
+    }
+
+    // Load remaining batches without updating the visible progress
     for (const batch of batches) {
       await this.loadImageBatch(batch);
     }
   }
 }
 
-// Initialize and start loading
+// Or if you want it to start immediately without waiting for DOM
 const loader = new ImageLoader();
 loader.preloadImages();
 
